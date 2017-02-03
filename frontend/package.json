@@ -4,9 +4,10 @@
   "scripts": {
     "build": "webpack",
     "dev": "webpack-dev-server --port 3000",
-    "lint": "yarn lint-coffeescript && yarn lint-dependencies",
+    "lint": "yarn lint-coffeescript && yarn lint-dependencies && yarn lint-stylus",
     "lint-coffeescript": "coffeelint -q src",
     "lint-dependencies": "dependency-lint",
+    "lint-stylus": "./node_modules/.bin/stylint src/",
     "test": "yarn lint && yarn unit-test",
     "unit-test": "mocha 'src/**/*_test.coffee'"
   },
@@ -36,6 +37,7 @@
     "regenerator-loader": "^3.0.0",
     "regenerator-runtime": "^0.9.5",
     "style-loader": "^0.13.1",
+    "stylint": "^1.5.9",
     "stylus": "^0.54.5",
     "stylus-loader": "^2.3.1",
     "webpack": "^1.13.2"

@@ -1,4 +1,4 @@
-require './global_styles/index.styl'
+require './index.styl'
 
 {browserHistory} = require 'react-router'
 {IndexRedirect, Route, Router} = require 'react-router'
