@@ -33,13 +33,13 @@ The database is mounted in the `tmp` directory, so that folder can be deleted if
 
 Once all dependencies are installed and the database is running, you can start both the backend and client simultaneously by running
   ```sh
-    $ npm run startall
+    $ yarn run startall
   ```
 
 You can also start the backend and client seperately by running the following commands in different terminal windows
   ```sh
     $ sbt run
-    $ npm run startclient
+    $ yarn run startclient
   ```
 
 ## Deploying
@@ -50,46 +50,6 @@ To deploy to heroku just setup CircleCI with a Heroku API key. Once that is conf
 
 ## Architecture
 
-The template is divided into two sections, the play backend and the react frontend. Each section can be worked on independently
+The template is divided into two sections, the play backend and the react frontend. Each section can be worked on independently.
 
-## Play Backend
-
-The play backend is setup to allow for easy/manual dependency injection with [macwire](https://github.com/adamw/macwire). Everything is wired up through the `Registry` and is loaded up through a custom [Play Application Loader](https://www.playframework.com/documentation/2.5.x/ScalaDependencyInjection) via `MacwireApplicationLoader.scala`. The play backend includes: a `CrudDao` to facilitate making basic CRUD requests in a database, a `Config` object that reads from `application.conf`.
-
-### Testing
-
-Testing is done using scalatest for both unit and function tests. Full features tests are also supported through Cucumber. To run tests the following commands can be used
-  ```sh
-    $ sbt test
-    $ sbt cucumber
-  ```
-
-### Style
-
-For styling the [Originate Scala Guide](https://github.com/Originate/guide/blob/master/scala/README.md) should be used. Scalastyle is used for linting the code and to make sure it meets style requirements. Scalastyle is executed when tests are run, but it can be invoked by itself by using
-  ```
-    $ sbt scalastyle
-  ```
-
-### Organizing Imports
-Additionally [Bowbaq/scala-imports](https://github.com/Bowbaq/scala-imports) is used to organize imports and removed unused ones. To run, just execute `fix-imports` at the root of the repository. The configuration file can be found at `./.fix-imports.yml`
-
-## React Frontend
-
-The react frontend is setup to be build using [Webpack](https://webpack.github.io/) and the configuration is minimal enough where it should be easy to change settings to fit the needs of the project. By default the application is setup with `React`, `Redux` and `React-Router` using ES6. For styling `LESS` is used.
-
-Additionally webpack is configured to include the path of the main `index.js` as a resolution path. This allows for imports to be done from the root of the frontend project without having to deal with relative paths.
-  ```js
-    // without resolution path
-    import foo from '../../../components/foo'
-    // with resolution path
-    import foo from './components/foo'
-  ```
-
-### Testing
-
-**Figure this out since we can go mochoa/chai route, but as far as I know jest is preferred when working with React**. Tests can be run by running `npm test` and the linter can be runned using `npm run lint`
-
-### Style
-
-**Need to figure out what language is going to be used in here**
+For specific documentation on each, please refer to the dev guides for the [backend](./DEVGUIDE_BACKEND.md) or [frontend](./DEVGUIDE_FRONTEND.md)
