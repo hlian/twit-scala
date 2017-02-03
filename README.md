@@ -13,12 +13,10 @@ This is a template for building applications in Play & React. This includes basi
   * `brew install sbt`
 * install [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
   * `brew install chromedriver`
-* install running/build tools
-  * `npm install`
 * install backend dependencies
   * `sbt compile`
-* install frontend dependencies
-  * `cd frontend && npm install`
+* install run/build tools (also installs frontend dependencies)
+  * `yarn install`
 * install [docker](https://www.docker.com/products/docker#/mac)
 * install [docker-compose](https://docs.docker.com/compose/install/)
   * note: on OSX the installation of docker comes with docker-compose
