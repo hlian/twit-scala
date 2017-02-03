@@ -1,11 +1,11 @@
 _ = require 'lodash'
 {browserHistory} = require 'react-router'
-classNames = require './index.styl'
 DismissableError = require '../dismissable_error'
-e = require('react-e/bind')(classNames)
 Loading = require '../loading'
 NavigationLink = require '../navigation_link'
 React = require 'react'
+style = require './index.styl'
+e = require('react-e/bind') style
 
 
 class App extends React.Component
