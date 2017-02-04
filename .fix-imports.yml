@@ -1,0 +1,32 @@
+---
+Internal:
+  - com.originate
+
+Lang:
+  - scala
+  - java
+  - javax
+
+Rewrites:
+  MustMatchers._: org.scalatest.MustMatchers._
+  concurrent.:    scala.concurrent.
+  collection.:    scala.collection.
+  Keys._:         sbt.Keys._
+
+Ignore:
+  - com.originate.util.Ops
+  - play.api.Play.current
+  - scala.collection.JavaConversions
+  - scala.collection.JavaConverters
+  - scala.concurrent.ExecutionContext.Implicits
+  - scala.language.experimental.macros
+  - scala.language.higherKinds
+  - scala.language.implicitConversions
+  - scala.sys.process
+
+Remove:
+ - import scala.Some
+
+MaxLineLength: 120
+
+Verbose: false

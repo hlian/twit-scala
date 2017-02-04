@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:9.5
+    container_name: play-react-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=originate
+      - POSTGRES_USER=olabs
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./tmp/postgres-data:/var/lib/postgresql/data

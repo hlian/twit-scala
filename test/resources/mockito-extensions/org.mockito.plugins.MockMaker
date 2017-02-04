@@ -1,0 +1,3 @@
+# Allows mocking of final classes which is typical in libraries
+# https://github.com/mockito/mockito/wiki/What's-new-in-Mockito-2#mock-the-unmockable-opt-in-mocking-of-final-classesmethods
+mock-maker-inline

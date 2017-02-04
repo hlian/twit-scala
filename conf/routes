@@ -1,0 +1,2 @@
+# API Endpoints
+GET /ping                       com.originate.controllers.PingController.ping
