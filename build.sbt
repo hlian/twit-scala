@@ -206,6 +206,7 @@ shellPrompt := { state =>
  */
 
 scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
+(scalastyleConfig in Test) := baseDirectory.value / "project" / "scalastyle-test-config.xml"
 
 scalastyleFailOnError := true
 
