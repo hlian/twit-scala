@@ -38,6 +38,10 @@ class PagingDataSpec extends BaseSpec {
       PagingData(PagingData.MaxLimit + 1).limit shouldBe PagingData.MaxLimit
     }
 
+    "enforces a minimum" in {
+      PagingData(-1).limit shouldBe PagingData.DefaultLimit
+    }
+
     "with an offset" - {
 
       "uses that offset" in {
