@@ -311,7 +311,6 @@ scalacOptions += "-P:linter:enable-only:" +
   "JavaConverters+" +
   "LikelyIndexOutOfBounds+" +
   "MalformedSwap+" +
-  "MergeMaps+" +
   "MergeNestedIfs+" +
   "ModuloByOne+" +
   "NumberInstanceOf+" +
