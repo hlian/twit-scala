@@ -20,6 +20,9 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
 
   System.setProperty("config.resource", "integration.conf")
 
+  private val StatsDPort = 18125
+  private val statsdServer = new MockStatsDServer(StatsDPort)
+
   private val env = new Environment(
     new java.io.File("."),
     ApplicationLoader.getClass.getClassLoader,
@@ -40,6 +43,7 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
 
   def afterAll(): Unit = {
     registry.database.shutdown()
+
   }
 
 }
