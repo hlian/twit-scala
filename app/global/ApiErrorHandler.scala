@@ -1,11 +1,11 @@
 package com.originate.global
 
 import com.originate.dto.ApiHelpers
-import com.originate.util.Logging
 import com.originate.global.exceptions.{ExternalServiceException, NoPermissionException, NotFoundException}
+import com.originate.util.Logging
 
 import play.api.http.HttpErrorHandler
-import play.api.http.Status.{INTERNAL_SERVER_ERROR, NOT_FOUND, FORBIDDEN, SERVICE_UNAVAILABLE}
+import play.api.http.Status.{FORBIDDEN, INTERNAL_SERVER_ERROR, NOT_FOUND, SERVICE_UNAVAILABLE}
 import play.api.mvc.{RequestHeader, Result, Results}
 
 import java.io.{PrintWriter, StringWriter}

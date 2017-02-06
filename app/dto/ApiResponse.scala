@@ -1,7 +1,7 @@
 package com.originate.dto
 
-import com.originate.util.URIBuilder
 import com.originate.util.Ops.AnyOps
+import com.originate.util.URIBuilder
 
 import play.api.data.validation.ValidationError
 import play.api.libs.json.{JsError, JsObject, JsPath, JsValue, Json, Writes}
