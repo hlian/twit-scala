@@ -36,7 +36,10 @@ object PagingData {
   def apply(
       limit: Int,
       offset: Option[Int] = None): PagingData = {
-    val fixedLimit = Seq(DefaultLimit, limit) reduceLeftOption (_ min _) getOrElse DefaultLimit
+    val fixedLimit =
+      if (limit > MaxLimit) MaxLimit
+      else if (limit <= 0) DefaultLimit
+      else limit
 
     PagingData(fixedLimit, offset.getOrElse(0))
   }
