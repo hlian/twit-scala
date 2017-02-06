@@ -2,6 +2,7 @@ package com.originate
 
 import com.originate.config.Config
 import com.originate.controllers.PingController
+import com.originate.monitoring.StatsDRegistry
 
 import com.softwaremill.macwire._
 import com.typesafe.scalalogging.StrictLogging
@@ -31,5 +32,12 @@ trait Registry
   }
 
   lazy val pingController = wire[PingController]
+
+  lazy val statsd = StatsDRegistry.createStatsDService(
+    config.datadog.agentHost,
+    config.datadog.agentPort,
+    config.applicationName,
+    config.environment
+  )
 
 }

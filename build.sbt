@@ -57,6 +57,15 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
+routesGenerator := InjectedRoutesGenerator
+
+// Automatic imports in file generated from routes
+routesImport ++= Seq(
+  "com.originate.dto._",
+  "org.joda.time._",
+  "com.originate.util.QueryStringBinders._"
+)
+
 val playManagedSources = Def.setting(crossTarget.value / "routes" / "main")
 val twirlManagedSources = Def.setting(crossTarget.value / "twirl" / "main")
 
@@ -74,6 +83,7 @@ sources in (Compile, doc) := Seq.empty
 
 libraryDependencies ++= Seq(
   evolutions,
+  filters,
   jdbc,
   ws
 )
@@ -89,6 +99,8 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"                %% "play-ws"                          % "2.5.10",
   "com.github.melrief"               %% "pureconfig"                       % "0.4.0",
   "joda-time"                         % "joda-time"                        % "2.9.6",
+  "io.backchat.inflector"            %% "scala-inflector"                  % "1.3.5",
+  "com.indeed"                        % "java-dogstatsd-client"            % "2.0.16",
   "com.softwaremill.macwire"         %% "macros"                           % "2.2.5"                         % Provided,
   "com.typesafe.play"                %% "anorm"                            % "2.5.2",
   "org.postgresql"                    % "postgresql"                       % "9.4-1200-jdbc41"                 exclude("org.slf4j", "slf4j-simple"),
@@ -194,6 +206,7 @@ shellPrompt := { state =>
  */
 
 scalastyleConfig := baseDirectory.value / "project" / "scalastyle-config.xml"
+(scalastyleConfig in Test) := baseDirectory.value / "project" / "scalastyle-test-config.xml"
 
 scalastyleFailOnError := true
 
@@ -310,7 +323,6 @@ scalacOptions += "-P:linter:enable-only:" +
   "JavaConverters+" +
   "LikelyIndexOutOfBounds+" +
   "MalformedSwap+" +
-  "MergeMaps+" +
   "MergeNestedIfs+" +
   "ModuloByOne+" +
   "NumberInstanceOf+" +

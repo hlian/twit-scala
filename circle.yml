@@ -1,0 +1,41 @@
+machine:
+  node:
+    version: 6
+  environment:
+    _JAVA_OPTIONS: "-XX:MaxHeapSize=2g"
+    PATH: $HOME/.cache/bin/:$HOME/.cache/venv/bin:$PATH
+    COMMIT: "$(cut -c1-6 <<< $CIRCLE_SHA1)"
+    CASSANDRA_STARTUP_TIMEOUT: 120
+
+  java:
+    version: oraclejdk8
+
+dependencies:
+  cache_directories:
+    - "~/.cache"
+    - "~/.sbt"
+    - "target/resolution-cache"
+    - "target/streams"
+    - "project/target/resolution-cache"
+    - "project/target/streams"
+    - "frontend/node_modules"
+
+test:
+  pre:
+    - (cd frontend; npm install)
+    - (cd frontend ; npm run buildTest)
+    - sbt test:compile
+  override:
+    - (cd frontend; npm run lint)
+    - (cd frontend; npm test)
+    - sbt test
+    - sbt cucumber
+  post:
+    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+    - find . \( \! -readable -prune \) -o \( -type f -regex ".*/target/test-reports/.*xml" \) -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+
+deployment:
+  production:
+    branch: production
+    heroku:
+      appname: originate-play-template
