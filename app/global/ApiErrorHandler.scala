@@ -11,6 +11,12 @@ import play.api.mvc.{RequestHeader, Result, Results}
 import java.io.{PrintWriter, StringWriter}
 import scala.concurrent.Future
 
+/**
+ * ApiErrorHandler is hooked into the application in MacwireApplicationLoader and serves as the
+ * final step that exceptions pass through before a request is sent back to the user. Exceptions
+ * from all parts of the application can be extended with types to help formulate the appropriate
+ * error message to be returned to the user (by passing through `exceptionToResponse`).
+ */
 class ApiErrorHandler extends HttpErrorHandler with ApiResponseHelpers with Results with Logging {
 
   def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {

@@ -7,6 +7,12 @@ import play.api.mvc.{Filter, RequestHeader, Result}
 
 import scala.concurrent.{ExecutionContext, Future}
 
+/**
+ * A Play filter that automatically times and reports metrics for each request. Stats
+ * are annotated with tags to help give easy organization on DataDog.
+ *
+ * see here for more info: http://docs.datadoghq.com/guides/tagging/
+ */
 class DatadogFilter(statsd: StatsDService)(implicit val mat: Materializer, ec: ExecutionContext) extends Filter {
 
   def apply(nextFilter: RequestHeader => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
