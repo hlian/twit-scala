@@ -74,6 +74,7 @@ sources in (Compile, doc) := Seq.empty
 
 libraryDependencies ++= Seq(
   evolutions,
+  filters,
   jdbc,
   ws
 )
