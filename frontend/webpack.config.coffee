@@ -12,9 +12,9 @@ require 'style-loader'
 require 'stylus-loader'
 require 'stylus'
 
-
 {NODE_ENV} = process.env
 HtmlWebpackPlugin = require 'html-webpack-plugin'
+{ProvidePlugin} = require 'webpack'
 path = require 'path'
 
 
@@ -48,11 +48,21 @@ module.exports =
     filename: '[hash].js'
 
   plugins: [
-    # Output index.html from pug template
-    new HtmlWebpackPlugin template: 'src/index.pug'
+    new HtmlWebpackPlugin
+      template: 'src/index.pug' # Output index.html from pug template
+    new ProvidePlugin
+      t: 'i18n'
   ]
 
-  resolve: extensions: ['', '.js', '.coffee']
+  resolve:
+    alias:
+      i18n: 'utils/i18n.coffee'
+    root: path.join __dirname, './src'
+    extensions: [
+      ''
+      '.js'
+      '.coffee'
+    ]
 
   stylus:
     use: [(s) -> s.include path.join(__dirname, 'src')]

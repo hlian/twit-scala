@@ -11,10 +11,11 @@ class App extends React.Component
 
   render: ->
     e 'div',
-      e 'h1', 'Scala+React Template App'
-      e 'p', 'See README.md for developer documentation.'
+      e 'h1', t 'home.title'
+      e 'p', t 'home.seeReadme'
       e 'hr'
-      e NavigationLink, to: '/demo', 'Check out the demo app'
+      e 'p', t 'home.internationalizedString'
+      e NavigationLink, to: '/demo', t 'home.demoAppLink'
 
 
 
