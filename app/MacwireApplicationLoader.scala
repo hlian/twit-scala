@@ -1,6 +1,7 @@
 package com.originate
 
 import com.originate.filters.LoggingFilter
+import com.originate.global.ApiErrorHandler
 
 import _root_.controllers.Assets
 import com.softwaremill.macwire._
@@ -31,6 +32,7 @@ trait AppComponents
   with Registry {
 
   lazy val assets: Assets = wire[Assets]
+  override lazy val httpErrorHandler = new ApiErrorHandler
   override lazy val httpFilters = Seq(
     wire[LoggingFilter]
   )
