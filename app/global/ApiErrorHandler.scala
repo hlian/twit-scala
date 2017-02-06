@@ -2,9 +2,10 @@ package com.originate.global
 
 import com.originate.dto.ApiHelpers
 import com.originate.util.Logging
+import com.originate.global.exceptions.{ExternalServiceException, NoPermissionException, NotFoundException}
 
 import play.api.http.HttpErrorHandler
-import play.api.http.Status.INTERNAL_SERVER_ERROR
+import play.api.http.Status.{INTERNAL_SERVER_ERROR, NOT_FOUND, FORBIDDEN, SERVICE_UNAVAILABLE}
 import play.api.mvc.{RequestHeader, Result, Results}
 
 import java.io.{PrintWriter, StringWriter}
@@ -28,6 +29,9 @@ class ApiErrorHandler extends HttpErrorHandler with ApiHelpers with Results with
     }
 
   private val exceptionToResponse: PartialFunction[Throwable, (Int, String)] = {
+    case e: NoPermissionException => (FORBIDDEN, e.getMessage)
+    case e: NotFoundException => (NOT_FOUND, e.getMessage)
+    case e: ExternalServiceException => (SERVICE_UNAVAILABLE, e.getMessage)
     case e => (INTERNAL_SERVER_ERROR, e.getMessage)
   }
 
