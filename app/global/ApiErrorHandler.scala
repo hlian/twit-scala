@@ -38,7 +38,7 @@ class ApiErrorHandler extends HttpErrorHandler with ApiResponseHelpers with Resu
     case e: NoPermissionException => (FORBIDDEN, e.getMessage)
     case e: NotFoundException => (NOT_FOUND, e.getMessage)
     case e: ExternalServiceException => (SERVICE_UNAVAILABLE, e.getMessage)
-    case e => (INTERNAL_SERVER_ERROR, e.getMessage)
+    case e: Any => (INTERNAL_SERVER_ERROR, e.getMessage)
   }
 
   private def logException(path: String, exception: Throwable): Unit = {

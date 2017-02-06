@@ -18,7 +18,7 @@ class DatadogFilter(statsd: StatsDService)(implicit val mat: Materializer, ec: E
   def apply(nextFilter: RequestHeader => Future[Result])(requestHeader: RequestHeader): Future[Result] = {
     val startTime = System.currentTimeMillis
 
-    nextFilter(requestHeader) andThen { case tryResult =>
+    nextFilter(requestHeader) andThen { case tryResult: Any =>
       val duration = System.currentTimeMillis - startTime
       val pathPartTags = requestHeader.path.split("/").zipWithIndex collect {
         case (part, i) if StatsKey.isValidString(part) => StatsTag(s"path_part_$i", part)
@@ -37,7 +37,7 @@ class DatadogFilter(statsd: StatsDService)(implicit val mat: Materializer, ec: E
 
         statsd.time(key, duration, tags: _*)
         statsd.increment(key, tags: _*)
-      } recover { case exception =>
+      } recover { case exception: Any =>
         statsd.increment(
           StatsKey("http.request.failure"),
           (baseTags :+ StatsTag("exception", exception.getMessage)): _*

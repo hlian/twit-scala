@@ -31,7 +31,7 @@ object PagingData {
   val MaxLimit = 100
   val DefaultLimit = 20
 
-  def default = PagingData(MaxLimit, 0)
+  def default: PagingData = PagingData(MaxLimit, 0)
 
   def apply(
       limit: Int,
