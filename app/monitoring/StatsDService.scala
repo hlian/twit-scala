@@ -12,9 +12,9 @@ import scala.util.{Failure, Success, Try}
  * This service is a wrapper around the StatsDClient that we use. Its purpose is to allow us to add
  *   extra usage to the client, as well as to enforce restrictions on the way that we name our keys.
  */
-class StatsDService(prefix: String, host: String, port: Int, tags: StatsTag*) extends Serializable {
+class StatsDService(prefix: String, host: String, port: Int, tags: StatsTag*) {
 
-  @transient lazy val client: StatsDClient = new NonBlockingStatsDClient(
+  val client: StatsDClient = new NonBlockingStatsDClient(
     prefix,
     host,
     port,
