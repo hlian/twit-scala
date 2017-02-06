@@ -1,6 +1,6 @@
 package com.originate
 
-import com.originate.filters.LoggingFilter
+import com.originate.filters.{DatadogFilter, LoggingFilter}
 import com.originate.global.ApiErrorHandler
 
 import _root_.controllers.Assets
@@ -34,7 +34,8 @@ trait AppComponents
   lazy val assets: Assets = wire[Assets]
   override lazy val httpErrorHandler = new ApiErrorHandler
   override lazy val httpFilters = Seq(
-    wire[LoggingFilter]
+    wire[LoggingFilter],
+    wire[DatadogFilter]
   )
 
   lazy val router: Router = {
