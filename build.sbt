@@ -57,6 +57,15 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
+routesGenerator := InjectedRoutesGenerator
+
+// Automatic imports in file generated from routes
+routesImport ++= Seq(
+  "com.originate.dto._",
+  "org.joda.time._",
+  "com.originate.util.QueryStringBinders._"
+)
+
 val playManagedSources = Def.setting(crossTarget.value / "routes" / "main")
 val twirlManagedSources = Def.setting(crossTarget.value / "twirl" / "main")
 
