@@ -6,6 +6,10 @@ import play.api.mvc.QueryStringBindable
 
 import scala.util.Right
 
+/**
+ * Used to package up and pass along paging data from the frontend to
+ * the rest of the system
+ */
 case class PagingData private (limit: Int, offset: Int) {
   def previous: PagingData =
     copy(
