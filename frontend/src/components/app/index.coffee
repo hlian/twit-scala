@@ -1,42 +1,19 @@
 _ = require 'lodash'
-{browserHistory} = require 'react-router'
-DismissableError = require '../dismissable_error'
-Loading = require '../loading'
-NavigationLink = require '../navigation_link'
 React = require 'react'
 style = require './index.styl'
 e = require('react-e/bind') style
+
+NavigationLink = require '../navigation_link'
 
 
 class App extends React.Component
 
 
-  componentDidMount: ->
-    @props.initialize()
-
-
-  componentWillReceiveProps: (nextProps) ->
-    if nextProps.promiseInspections['todos/create']?.fulfilled
-      browserHistory.push('/todos')
-      nextProps.resetPromiseInspection 'todos/create'
-
-
-  isAsyncActionLoading: ->
-    _.some @props.promiseInspections, 'pending'
-
-
   render: ->
     e 'div',
-      e '.title', 'My Todo List'
-      e '.links',
-        e NavigationLink, to: '/todos', 'Todos'
-        e NavigationLink, to: '/todos/new', 'New Todo'
-      @props.children
-      e Loading if @isAsyncActionLoading()
-      for name, {error} of @props.promiseInspections when error
-        e DismissableError,
-          message: @props.error.stack or @props.error
-          onDismiss: @props.resetPromiseInspection(name)
+      'Hello, world!'
+      e NavigationLink, to: '/demo', 'Link to the demo ToDo app'
+
 
 
 module.exports = App

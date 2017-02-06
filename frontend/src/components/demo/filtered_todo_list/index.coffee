@@ -1,6 +1,6 @@
 classNames = require './index.styl'
 e = require('react-e/bind')(classNames)
-Link = require '../link'
+Link = require '../../link'
 React = require 'react'
 TodoList = require '../todo_list'
 
