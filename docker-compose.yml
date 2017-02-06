@@ -12,3 +12,10 @@ services:
       - POSTGRES_PASSWORD=password
     volumes:
       - ./tmp/postgres-data:/var/lib/postgresql/data
+
+  statsd:
+    image: datadog/docker-dd-agent
+    environment:
+      API_KEY: "testkey"
+    ports:
+      - "8125:8125/udp"
