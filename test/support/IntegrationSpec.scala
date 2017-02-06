@@ -43,7 +43,7 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
 
   def afterAll(): Unit = {
     registry.database.shutdown()
-
+    statsdServer.close()
   }
 
 }
