@@ -1,6 +1,6 @@
 package com.originate.global
 
-import com.originate.dto.ApiHelpers
+import com.originate.dto.ApiResponseHelpers
 import com.originate.global.exceptions.{ExternalServiceException, NoPermissionException, NotFoundException}
 import com.originate.util.Logging
 
@@ -11,7 +11,7 @@ import play.api.mvc.{RequestHeader, Result, Results}
 import java.io.{PrintWriter, StringWriter}
 import scala.concurrent.Future
 
-class ApiErrorHandler extends HttpErrorHandler with ApiHelpers with Results with Logging {
+class ApiErrorHandler extends HttpErrorHandler with ApiResponseHelpers with Results with Logging {
 
   def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     logger.warn(s"client error on path: ${request.path}, with message: $message")
