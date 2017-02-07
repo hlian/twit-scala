@@ -1,4 +1,4 @@
-{actions, build} = require '../container_helpers'
+{build} = require '../container_helpers'
 App = require './'
 
 

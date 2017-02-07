@@ -1,4 +1,3 @@
-_ = require 'lodash'
 React = require 'react'
 style = require './index.styl'
 e = require('react-e/bind') style
