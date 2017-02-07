@@ -26,6 +26,7 @@
       "google": true,
       "runExamples": true,
       "sinon": true,
+      "t": true,
       "UserVoice": true
     },
     "overwrite": false,
