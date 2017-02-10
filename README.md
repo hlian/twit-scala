@@ -2,6 +2,17 @@
 
 This is a template for building applications in Play & React. This includes basic infrastructure to minimize startup time on a new project, but as such it should be updated accordingly to fit the needs of the project.
 
+## Contents
+
+* [Project Folder Structure](PROJECT_LAYOUT.md)
+* [Project Setup](#setup)
+  * [Dependencies](#dependencies)
+  * [Database](#database)
+* [Running the Project](#running)
+* [Deploying](#deploying)
+  * [Heroku](#heroku)
+* [Architecture](#architecture)
+
 ## Setup
 
 ### Dependencies
