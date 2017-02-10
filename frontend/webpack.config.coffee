@@ -11,6 +11,7 @@ require 'regenerator'
 require 'style-loader'
 require 'stylus-loader'
 require 'stylus'
+require 'svg-jsx-loader'
 
 {NODE_ENV} = process.env
 HtmlWebpackPlugin = require 'html-webpack-plugin'
@@ -39,6 +40,9 @@ module.exports =
   ,
     loader: 'pug'
     test: /\.pug$/
+  ,
+    loader: 'file'
+    test: /\.(png|svg)$/
   ]
 
   output:
