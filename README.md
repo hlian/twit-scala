@@ -2,9 +2,16 @@
 
 This is a template for building applications in Play & React. This includes basic infrastructure to minimize startup time on a new project, but as such it should be updated accordingly to fit the needs of the project.
 
+## Documentation
+
+Detailed documentation on a number of topics can be found in the `docs/` subdirectory of this repo.  This README provides a high-level overview of this system, while detailed information about specific subtopics can be found in separate documentation as follows:
+
+* [Detailed project layout](./docs/PROJECT_LAYOUT.md)
+* [Developer guide for backend engineering](./docs/DEVGUIDE_BACKEND.md)
+* [Developer guide for frontend engineering](./docs/DEVGUIDE_FRONTEND.md)
+
 ## Contents
 
-* [Project Folder Structure](PROJECT_LAYOUT.md)
 * [Project Setup](#setup)
   * [Dependencies](#dependencies)
   * [Database](#database)
@@ -61,6 +68,6 @@ To deploy to heroku just setup CircleCI with a Heroku API key. Once that is conf
 
 ## Architecture
 
-The template is divided into two sections, the play backend and the react frontend. Each section can be worked on independently.
+The template is divided into two sections, the Play backend and the React frontend.
 
 For specific documentation on each, please refer to the dev guides for the [backend](./DEVGUIDE_BACKEND.md) or [frontend](./DEVGUIDE_FRONTEND.md)

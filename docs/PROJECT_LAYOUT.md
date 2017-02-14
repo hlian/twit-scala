@@ -7,7 +7,7 @@ that are not useful to describe.
 ```sh
 .
 ├── .fix-imports.yml # config for scala import cleaner (see readme)
-├── PROJECT_LAYOUT.md # YOU ARE HERE
+├── docs # Developer documentation
 ├── app
 │   ├── Config.scala # case classes that are a scala representation of *.conf files
 │   ├── MacwireApplicationLoader.scala # a replacement for the play app loader that allows for macwire dependency injection
