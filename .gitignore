@@ -1,20 +1,16 @@
-# sbt
+# Backend
 target/
 .history
-
-# node dependencies
-node_modules
-
-# testing
 coverage
-
-# production
 build
 
-# misc
+# Frontend
+dist
+node_modules
+npm-debug.log
+
+# General
 .DS_Store
 .env
 npm-debug.log
-
-# docker
 tmp/

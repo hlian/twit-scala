@@ -14,22 +14,22 @@ dependencies:
   cache_directories:
     - "~/.cache"
     - "~/.sbt"
-    - "target/resolution-cache"
-    - "target/streams"
-    - "project/target/resolution-cache"
-    - "project/target/streams"
+    - "backend/target/resolution-cache"
+    - "backend/target/streams"
+    - "backend/project/target/resolution-cache"
+    - "backend/project/target/streams"
     - "frontend/node_modules"
 
 test:
   pre:
     - (cd frontend; npm install)
-    - (cd frontend ; npm run buildTest)
-    - sbt test:compile
+    - (cd frontend; npm run buildTest)
+    - (cd backend; sbt test:compile)
   override:
     - (cd frontend; npm run lint)
     - (cd frontend; npm test)
-    - sbt test
-    - sbt cucumber
+    - (cd backend; sbt test)
+    - (cd backend; sbt cucumber)
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . \( \! -readable -prune \) -o \( -type f -regex ".*/target/test-reports/.*xml" \) -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;

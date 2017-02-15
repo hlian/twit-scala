@@ -1,9 +1,0 @@
-{
-  "name": "play-react-template",
-  "private": true,
-  "scripts": {
-    "postinstall": "cd frontend && yarn install && yarn run build"
-  },
-  "dependencies": {
-  }
-}

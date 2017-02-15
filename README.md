@@ -25,21 +25,21 @@ Detailed documentation on a number of topics can be found in the `docs/` subdire
 ### Dependencies
 
 * `brew update`
-* install [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+* Install [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
   * `brew cask install java`
-* install [sbt](http://www.scala-sbt.org/download.html)
+* Install [sbt](http://www.scala-sbt.org/download.html)
   * `brew install sbt`
-* install [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
+* Install [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
   * `brew install chromedriver`
-* install backend dependencies
-  * `sbt compile`
-* install run/build tools (also installs frontend dependencies)
-  * `yarn install`
-* install [docker](https://www.docker.com/products/docker#/mac)
-* install [docker-compose](https://docs.docker.com/compose/install/)
-  * note: on OSX the installation of docker comes with docker-compose
-* install [fix-imports](https://github.com/Bowbaq/scala-imports)
-  * go to [releases page](https://github.com/Bowbaq/scala-imports/releases) and download the binary for your platform and add it somewhere on your `$PATH`
+* Install backend dependencies
+  * `cd backend; sbt compile`
+* Install frontend dependencies
+  * `cd frontend; yarn install`
+* Install [docker](https://www.docker.com/products/docker#/mac)
+* Install [docker-compose](https://docs.docker.com/compose/install/)
+  * Note: on OSX the installation of docker comes with docker-compose
+* Install [fix-imports](https://github.com/Bowbaq/scala-imports)
+  * Go to [releases page](https://github.com/Bowbaq/scala-imports/releases) and download the binary for your platform and add it somewhere on your `$PATH`
 
 ### Database
 
@@ -49,16 +49,7 @@ The database is mounted in the `tmp` directory, so that folder can be deleted if
 
 ## Running
 
-Once all dependencies are installed and the database is running, you can start both the backend and client simultaneously by running
-  ```sh
-    $ yarn run startall
-  ```
-
-You can also start the backend and client seperately by running the following commands in different terminal windows
-  ```sh
-    $ sbt run
-    $ yarn run startclient
-  ```
+Once all dependencies are installed and the database is running, you can start the backend via `cd backend; sbt run` and the frontend via `cd frontend; yarn run startclient`.
 
 ## Deploying
 
