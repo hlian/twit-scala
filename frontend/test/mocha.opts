@@ -1,5 +1,0 @@
---colors
---compilers coffee:coffee-script/register
---reporter dot
---recursive
-test/test_helper.coffee

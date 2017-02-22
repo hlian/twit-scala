@@ -8,6 +8,7 @@ build
 dist
 node_modules
 npm-debug.log
+.tmp
 
 # General
 .DS_Store

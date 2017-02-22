@@ -1,7 +1,7 @@
 # React / Redux Todo App
 
 ### Setup
-* `yarn install`
+* `yarn`
 * Optional: install [Chrome React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
 
 ### Local Development
@@ -11,39 +11,75 @@
 ### Project Structure
 ```
 └── src
-    │
-    ├── components # react components
-    │
-    ├── global_styles
-    │
-    ├── index.coffee # entry point for application
-    │
+    ├── assets
+    │   └── icons
+    ├── components # React stateless/reusable componenets
+    ├── styles # Common styling code to use with styled-comonents
+    ├── index.jsx
     ├── index.pug
-    │
-    ├── services
-    │
-    └── store
-        │
-        ├-- actions
-        │
-        ├-- reducer
-        │
-        ├-- builder.coffee # dependency injection for testing
-        │
-        └-- index.coffee
+    ├── locales # I18n translation files
+    │   └── en.js
+    ├── pages # Main components for routes
+    │   ├── app # Top Level container that contains all other components
+    │   │   ├── index.jsx
+    │   ├── demo # Demo Todo App container
+    │   │   ├── createTodo
+    │   │   │   ├── index.jsx
+    │   │   ├── index.jsx
+    │   │   ├── index.spec.jsx
+    │   │   ├── todoFilter
+    │   │   │   ├── index.jsx
+    │   │   └── todoList
+    │   │       ├── index.jsx
+    │   └── details
+    │       ├── index.jsx
+    ├── services #
+    │   ├── index.js
+    │   └── todoService.js
+    ├── store
+    │   ├── actions
+    │   │   ├── index.js
+    │   │   └── todoActions.js
+    │   ├── index.js
+    │   ├── initState.js # Store helpers to initialize state (makes fetch requests etc.)
+    │   └── reducers
+    │       ├── index.js
+    │       ├── todo.js
+    │       └── todo.spec.js
+    └── utils
+        └── i18n.js
 ```
-
-* Container components should be inline with the component they wrap
-
-  ```
-  └── app
-      ├── index.coffee     # presentational
-      └── container.coffee # container
-  ```
 
 ### Concepts
 * Separation of [presentational and container components](http://redux.js.org/docs/basics/UsageWithReact.html#presentational-and-container-components)
-* [CSS modules](https://github.com/css-modules/css-modules)
+
+### Guidelines
+* Webpack uses the `src` directory for path resolution so imports can be done without using relative paths
+
+  ```js
+    // without path resolution
+    import foo from '../../components/foo'
+
+    // with path resolution
+    import foo from 'components/foo'
+  ```
+* Since container and presentational components rarely live in isolation, they should both be exported
+
+  ```js
+    // in app/index.jsx
+
+    class AppComponent extends Component {
+      ...
+    }
+
+    const mapState = (state) => { ... }
+    const mapDispatch = (dispatch) => { ... }
+
+    const AppContainer = connect(mapState, mapDispatch)(AppComponent)
+
+    export { AppComponent, AppContainer }
+  ```
+
 
 ### Testing Guidelines
 * Unit tests for redux on the store level
