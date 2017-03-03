@@ -18,3 +18,11 @@ export function truncate() {
     text-overflow: ellipsis;
   `;
 }
+
+export function absolutePosition() {
+  return `
+    position: absolute;
+    top: 0;
+    left: 0 ;
+  `;
+}

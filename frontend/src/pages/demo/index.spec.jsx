@@ -1,9 +1,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { TodoComponent } from './';
-import { components } from './todoList';
 
-const findTodos = wrapper => wrapper.find(components.TodoEntry);
+import List, { components } from 'app/components/list';
+import { TodoComponent } from './';
+
+const findTodos = wrapper => wrapper.find(components.CheckboxEntry);
 
 const inputTodoText = (wrapper, text) =>
   wrapper
@@ -44,8 +45,8 @@ describe('TodoComponent', () => {
     });
 
     it('should only display the appropriate todos', function() {
-      expect(this.wrapper.find('TodoList').props().todos).to.eql([
-        { id: 1, todo: 'write tests', completed: true },
+      expect(this.wrapper.find(List).props().entries).to.eql([
+        { id: 1, value: 'write tests', checked: true },
       ]);
     });
   });
@@ -53,7 +54,7 @@ describe('TodoComponent', () => {
   describe('checking a todo', () => {
     beforeEach(function() {
       this.wrapper
-        .find('TodoList input[type="checkbox"]')
+        .find('List input[type="checkbox"]')
         .at(1)
         .simulate('change');
     });

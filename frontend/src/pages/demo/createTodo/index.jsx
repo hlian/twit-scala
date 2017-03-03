@@ -2,8 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
 
 import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
 import { clearFix } from 'app/styles/mixins';
+
+import TextInput from 'app/components/textInput';
+import Button from 'app/components/button';
 
 const CreateTodoForm = styled.form`
   ${clearFix()}
@@ -12,32 +14,18 @@ const CreateTodoForm = styled.form`
   display: block;
 `;
 
-const padding = `
-  padding: 5px;
+const TodoInput = styled(TextInput)`
   margin-bottom: 5px;
-  box-sizing: border-box;
 `;
 
-const TodoInput = styled.input`
-  ${padding}
-  ${sansFont(300)}
-  font-size: 18px;
-  display: block;
-  width: 100%;
-`;
-
-const SubmitTodo = styled.button`
-  ${padding}
+const SubmitTodo = styled(Button)`
   float: right;
-  width: 100px;
-  background: ${colors.primary};
   border-radius: 0 0 5px 5px;
 
   &:disabled {
     background: ${colors.greyD};
   }
 `;
-
 
 class CreateTodo extends Component {
   constructor(props) {
@@ -46,10 +34,6 @@ class CreateTodo extends Component {
     this.state = {
       input: '',
     };
-  }
-
-  updateInput = (e) => {
-    this.setState({ input: e.target.value });
   }
 
   createTodo = (e) => {
@@ -65,7 +49,7 @@ class CreateTodo extends Component {
 
     return (
       <CreateTodoForm onSubmit={this.createTodo}>
-        <TodoInput type="text" onChange={this.updateInput} value={input} />
+        <TodoInput onChange={e => this.setState({ input: e.target.value })} value={input} />
         <SubmitTodo disabled={input.length === 0}>Create</SubmitTodo>
       </CreateTodoForm>
     );

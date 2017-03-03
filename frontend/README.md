@@ -27,10 +27,6 @@
     │   │   │   ├── index.jsx
     │   │   ├── index.jsx
     │   │   ├── index.spec.jsx
-    │   │   ├── todoFilter
-    │   │   │   ├── index.jsx
-    │   │   └── todoList
-    │   │       ├── index.jsx
     │   └── details
     │       ├── index.jsx
     ├── services #
@@ -79,7 +75,8 @@
 
     export { AppComponent, AppContainer }
   ```
-
+* There is a [React Storybook](https://github.com/storybooks/react-storybook) that can be used to develop components in isolation
+  - to look at the storybook just run `yarn storybook` and go to `localhost:6006`
 
 ### Testing Guidelines
 * Unit tests for redux on the store level

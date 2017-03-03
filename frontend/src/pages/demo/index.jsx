@@ -4,13 +4,21 @@ import styled from 'styled-components';
 import _ from 'lodash';
 
 import actions from 'app/store/actions';
-import TodoList from './todoList';
+import Tabs from 'app/components/tabs';
+import List from 'app/components/list';
+
 import CreateTodo from './createTodo';
-import TodoFilter from './todoFilter';
 
 const DemoContainer = styled.div`
   width: 350px;
   margin: auto;
+`;
+
+const ListContainer = styled(List)`
+  width: 100%;
+  height: 200px;
+  overflow-y: scroll;
+  margin-bottom: 10px;
 `;
 
 class TodoComponent extends Component {
@@ -27,19 +35,27 @@ class TodoComponent extends Component {
     const filters = ['all', 'completed', 'active'];
     return filters.map((filter) => {
       return {
-        name: filter,
+        id: filter,
         active: this.state.filter === filter,
-        setFilter: () => this.setState({ filter }),
+        value: filter,
       };
     });
   }
 
   filterTodos() {
     const { todos } = this.props;
+    const mapTodos = (todo) => {
+      return {
+        id: todo.id,
+        checked: todo.completed,
+        value: todo.todo,
+      };
+    };
+
     switch (this.state.filter) {
-      case 'completed': return _.filter(todos, ['completed', true]);
-      case 'active': return _.filter(todos, ['completed', false]);
-      default: return todos;
+      case 'completed': return _.filter(todos, ['completed', true]).map(mapTodos);
+      case 'active': return _.filter(todos, ['completed', false]).map(mapTodos);
+      default: return _.map(todos, mapTodos);
     }
   }
 
@@ -47,8 +63,8 @@ class TodoComponent extends Component {
     const { toggleTodo, createTodo } = this.props;
     return (
       <DemoContainer>
-        <TodoFilter filters={this.filters()} />
-        <TodoList todos={this.filterTodos()} toggleTodo={toggleTodo} />
+        <Tabs tabs={this.filters()} tabClick={filter => this.setState({ filter })} />
+        <ListContainer entries={this.filterTodos()} toggle={todo => toggleTodo(todo.id)} />
         <CreateTodo create={createTodo} />
       </DemoContainer>
     );

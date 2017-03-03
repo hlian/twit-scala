@@ -50,6 +50,7 @@ module.exports = {
       { test: /\.pug$/, use: ['pug-loader'] },
       { test: /\.svg$/, use: ['babel-loader', 'react-svg-loader'] },
       { test: /\.(jpg|png)$/, use: ['file-loader'] },
+      { test: require.resolve('snapsvg'), use: ['imports-loader?this=>window,fix=>module.exports=0'] },
     ]
   },
   plugins: [
