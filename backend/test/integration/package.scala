@@ -18,7 +18,6 @@ package object steps {
 
   implicit val connection = registry.connection
   implicit val webDriver: WebDriver = new ChromeDriver
-  val adminDriver: WebDriver = new ChromeDriver
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 
 }

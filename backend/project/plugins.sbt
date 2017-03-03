@@ -15,3 +15,7 @@ addSbtPlugin("io.get-coursier" % "sbt-coursier" % "1.0.0-M15")
 
 // cucumber
 addSbtPlugin("com.waioeka.sbt" % "cucumber-plugin" % "0.0.7")
+
+// Deployment
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.1.5")
+libraryDependencies += "com.spotify" % "docker-client" % "8.0.0"

@@ -14,6 +14,7 @@ dependencies:
   cache_directories:
     - "~/.cache"
     - "~/.sbt"
+    - "~/.yarn"
     - "backend/target/resolution-cache"
     - "backend/target/streams"
     - "backend/project/target/resolution-cache"
@@ -22,12 +23,10 @@ dependencies:
 
 test:
   pre:
-    - (cd frontend; npm install)
-    - (cd frontend; npm run buildTest)
+    - (cd frontend; yarn)
     - (cd backend; sbt test:compile)
   override:
-    - (cd frontend; npm run lint)
-    - (cd frontend; npm test)
+    - (cd frontend; yarn test)
     - (cd backend; sbt test)
     - (cd backend; sbt cucumber)
   post:

@@ -1,3 +1,5 @@
+import com.typesafe.sbt.packager.docker._
+
 name := "originate-play"
 
 version := "0.1"
@@ -97,7 +99,7 @@ libraryDependencies ++= Seq(
   "org.scala-lang"                    % "scala-reflect"                    % scalaVersion.value,
   "com.typesafe.play"                %% "play-json"                        % "2.5.10",
   "com.typesafe.play"                %% "play-ws"                          % "2.5.10",
-  "com.github.melrief"               %% "pureconfig"                       % "0.4.0",
+  "com.github.melrief"               %% "pureconfig"                       % "0.6.0",
   "joda-time"                         % "joda-time"                        % "2.9.6",
   "io.backchat.inflector"            %% "scala-inflector"                  % "1.3.5",
   "com.indeed"                        % "java-dogstatsd-client"            % "2.0.16",
@@ -105,7 +107,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"                %% "anorm"                            % "2.5.2",
   "org.postgresql"                    % "postgresql"                       % "9.4-1200-jdbc41"                 exclude("org.slf4j", "slf4j-simple"),
   "ch.qos.logback"                    % "logback-classic"                  % "1.1.7",
-  "com.typesafe.scala-logging"       %% "scala-logging"                   % "3.5.0"
+  "com.typesafe.scala-logging"       %% "scala-logging"                    % "3.5.0"
 )
 
 libraryDependencies ++= Seq(
@@ -427,3 +429,23 @@ watchSources <++= baseDirectory map { path =>
 // Specify the frontend build as resources for the Assets controller
 // When doing reverse routing files for the frontend build are accessed as if they are in the "public" directory
 unmanagedResourceDirectories in Assets += baseDirectory.value / "frontend/build"
+
+// docker deployment
+enablePlugins(JavaAppPackaging)
+enablePlugins(DockerSpotifyClientPlugin)
+
+packageName in Docker := packageName.value
+version in Docker := version.value
+maintainer in Docker := "Antonio Morales <antonio.morales@originate.com"
+daemonUser in Docker := "daemon"
+
+dockerBaseImage := "relateiq/oracle-java8"
+dockerExposedPorts := Seq(9000)
+
+defaultLinuxInstallLocation in Docker := "/opt/docker"
+
+dockerCommands ++= Seq(
+  Cmd("ENV", "LANG", "C.UTF-8"),
+  Cmd("ENV", "TZ", "/usr/share/zoneinfo/UTC"),
+  ExecCmd("ENTRYPOINT", "bin/originate-play", "-Dconfig.file=conf/prod.conf")
+)

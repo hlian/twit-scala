@@ -13,6 +13,10 @@ trait NoPermissionException { this: Throwable => }
 trait NotFoundException { this: Throwable => }
 trait ExternalServiceException { this: Throwable => }
 
+case class ConfigurationLoadFailed[T](t: T)
+  extends Exception(s"failed to load configuration: $t")
+  with ConfigurationException
+
 case class CaseClassShouldNotContainId[T](t: T)
   extends Exception(
     s"Case class $t contains field named 'id' but id should be left for WithId abstraction to handle"
