@@ -1,20 +1,21 @@
 package com.originate
 
 import com.originate.config.Config
-import com.originate.controllers.PingController
-import com.originate.monitoring.StatsDRegistry
+import com.originate.controllers._
 import com.originate.global.exceptions.ConfigurationLoadFailed
+import com.originate.monitoring.StatsDRegistry
 
 import com.softwaremill.macwire._
+import play.api.BuiltInComponents
 import play.api.db.{BoneCPComponents, DBComponents}
 import pureconfig._
 
 import java.sql.Connection
 import scala.concurrent.ExecutionContext
-import scala.util.{Failure, Success}
 
 trait Registry
   extends DBComponents
+  with BuiltInComponents
   with BoneCPComponents {
 
   lazy val database = dbApi.database("default")
@@ -29,6 +30,7 @@ trait Registry
   }
 
   lazy val pingController = wire[PingController]
+  lazy val swaggerController = wire[SwaggerController]
 
   lazy val statsd = StatsDRegistry.createStatsDService(
     config.datadog.agentHost,

@@ -1,0 +1,28 @@
+---
+  swagger: "2.0"
+  info:
+    title: "Originate Template Project API"
+    description: "see that which is unseen"
+    version: "1.0.0"
+  host: localhost:9000
+  definitions:
+    org.joda.time.LocalDate:
+      type: string
+      format: date
+      example: "2016-08-15"
+    PagingData.limit:
+      type: integer
+      maximum: 100
+      required: false
+    PagingData.previousOffset:
+      type: integer
+      required: false
+    PagingData.nextOffset:
+      type: integer
+      required: false
+  schemes:
+    - "http"
+  consumes:
+    - application/json
+  produces:
+    - application/json

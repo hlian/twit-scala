@@ -90,6 +90,8 @@ libraryDependencies ++= Seq(
   ws
 )
 
+resolvers += Resolver.jcenterRepo
+
 libraryDependencies ++= Seq(
   "commons-codec"                     % "commons-codec"                    % "1.10",
   "com.softwaremill.macwire"         %% "macros"                           % "2.2.5"                         % Provided,
@@ -107,7 +109,9 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"                %% "anorm"                            % "2.5.2",
   "org.postgresql"                    % "postgresql"                       % "9.4-1200-jdbc41"                 exclude("org.slf4j", "slf4j-simple"),
   "ch.qos.logback"                    % "logback-classic"                  % "1.1.7",
-  "com.typesafe.scala-logging"       %% "scala-logging"                    % "3.5.0"
+  "com.typesafe.scala-logging"       %% "scala-logging"                    % "3.5.0",
+  "com.iheart"                       %% "play-swagger"                     % "0.5.4",
+  "org.webjars"                       % "swagger-ui"                       % "2.2.10"
 )
 
 libraryDependencies ++= Seq(

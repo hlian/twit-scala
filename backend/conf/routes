@@ -1,2 +1,25 @@
-# API Endpoints
-GET /ping                       com.originate.controllers.PingController.ping
+#################################################### API Endpoints ####################################################
+
+################################################## Default Endpoints ##################################################
+
+###
+# summary: ping endpoint
+###
+GET   /ping                                                                     com.originate.controllers.PingController.ping
+
+### NoDocs ###
+GET   /assets/*file                                                             controllers.Assets.versioned(path = "/public", file: Asset)
+
+####################################################### Swagger #######################################################
+
+###
+# summary: our lovely swagger docs
+# description: you are here!
+###
+GET   /api/docs                                                                 com.originate.controllers.SwaggerController.redirectToSwagger
+
+### NoDocs ###
+GET   /api/docs/swagger.json                                                    com.originate.controllers.SwaggerController.specs
+
+### NoDocs ###
+GET   /api/docs/swagger-ui/*file                                                controllers.Assets.at(path: String = "/public/lib/swagger-ui", file: String)

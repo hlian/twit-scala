@@ -1,13 +1,12 @@
 package com.originate
 
 import com.originate.config.Config
-import com.originate.support.{MockDependencies, MockHelpers}
 import com.originate.global.exceptions.ConfigurationLoadFailed
+import com.originate.support.{MockDependencies, MockHelpers}
 
 import pureconfig._
 
 import java.sql.Connection
-import scala.util.{Failure, Success}
 
 trait MockRegistry extends MockHelpers with MockDependencies {
 

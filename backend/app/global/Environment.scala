@@ -1,7 +1,7 @@
 package com.originate.global
 
 import pureconfig.ConfigConvert
-import pureconfig.ConfigConvert.{fromStringReader, catchReadError}
+import pureconfig.ConfigConvert.{catchReadError, fromStringReader}
 
 case class Environment(value: String) extends AnyVal {
   override def toString: String = value
