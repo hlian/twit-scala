@@ -65,7 +65,8 @@ routesGenerator := InjectedRoutesGenerator
 routesImport ++= Seq(
   "com.originate.dto._",
   "org.joda.time._",
-  "com.originate.util.QueryStringBinders._"
+  "com.originate.util.QueryStringBinders._",
+  "com.originate.util.PathBinders._"
 )
 
 val playManagedSources = Def.setting(crossTarget.value / "routes" / "main")
