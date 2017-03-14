@@ -164,8 +164,8 @@ def desugarImpl[T](c: blackbox.Context)(expr: c.Expr[T]): c.Expr[Unit] = {
 def desugar[T](expr: T): Unit = macro desugarImpl[T]
 
 import play.api.{ApplicationLoader, Environment, Mode}
-import com.olabs.MacwireApplicationLoader
-import com.olabs.models._
+import com.originate.MacwireApplicationLoader
+import com.originate.models._
 val env = Environment(new java.io.File("."), this.getClass.getClassLoader, Mode.Dev)
 val context = ApplicationLoader.createContext(env)
 val loader = new MacwireApplicationLoader

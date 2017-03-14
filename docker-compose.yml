@@ -8,10 +8,12 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_DB=originate
-      - POSTGRES_USER=olabs
+      - POSTGRES_TEST_DB=test
+      - POSTGRES_USER=originate
       - POSTGRES_PASSWORD=password
     volumes:
       - ./tmp/postgres-data:/var/lib/postgresql/data
+      - ./scripts:/docker-entrypoint-initdb.d
 
   statsd:
     image: datadog/docker-dd-agent

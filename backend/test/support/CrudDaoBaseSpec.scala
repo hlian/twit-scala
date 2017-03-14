@@ -15,25 +15,9 @@ import scala.util.{Failure, Success}
 abstract class CrudDaoBaseSpec[T](
     nameOfThing: String)
     (implicit factory: Factory[T])
-  extends DBFunctionalSpec {
+  extends PersistenceFunctionalSpec {
 
-  trait CleanDB extends BaseContext {
-    removeAll(dao)
-
-    def removeAll[U](crudDao: CrudDao[U]): Unit =
-      await {
-        crudDao.getAll() flatMap (Future.traverse(_)(crudDao.remove))
-      }
-  }
-
-  def make(i: Int): Future[Seq[WithId[T]]] = {
-    val instances = factory.newInstanceSeq(i)
-    instances.foldLeft(Future.successful(Seq.empty[WithId[T]])) { case (acc, model) =>
-      acc flatMap { list =>
-        dao.create(model) map (list :+ _)
-      }
-    }
-  }
+  def make(i: Int): Future[Seq[WithId[T]]]
 
   def dao: CrudDao[T]
 
@@ -44,7 +28,7 @@ abstract class CrudDaoBaseSpec[T](
 
       s"when $nameOfThing exists" - {
 
-        s"it finds the $nameOfThing" in new CleanDB {
+        s"it finds the $nameOfThing" in new BaseContext {
           val tuple = for {
             Seq(thing) <- make(1)
             found <- dao.findById(thing.id)
@@ -59,7 +43,7 @@ abstract class CrudDaoBaseSpec[T](
 
       s"when $nameOfThing doesn't exist" - {
 
-        "returns None" in new CleanDB {
+        "returns None" in new BaseContext {
           whenReady(dao.findById(1)) { found =>
             found shouldBe None
           }
@@ -70,13 +54,13 @@ abstract class CrudDaoBaseSpec[T](
 
     "create" - {
 
-      s"saves a $nameOfThing" in new CleanDB {
+      s"saves a $nameOfThing" in new BaseContext {
         whenReady(make(1)) { instances =>
           instances.size shouldBe 1
         }
       }
 
-      s"returns the created $nameOfThing with its id" in new CleanDB {
+      s"returns the created $nameOfThing with its id" in new BaseContext {
         whenComplete(make(1) map (_.head)) {
           case Success(_) =>
           case _ => fail
@@ -87,7 +71,7 @@ abstract class CrudDaoBaseSpec[T](
 
     "getAll" - {
 
-      s"finds all the ${nameOfThing}s" in new CleanDB {
+      s"finds all the ${nameOfThing}s" in new BaseContext {
         whenReady(make(10) flatMap (_ => dao.getAll())) { instances =>
           instances.size shouldBe 10
         }
@@ -97,7 +81,7 @@ abstract class CrudDaoBaseSpec[T](
 
     "remove" - {
 
-      s"deletes a $nameOfThing" in new CleanDB {
+      s"deletes a $nameOfThing" in new BaseContext {
         val deleted = make(1) map (_.head) flatMap (dao.remove)
         whenComplete(deleted) {
           case Success(_) =>
@@ -109,7 +93,7 @@ abstract class CrudDaoBaseSpec[T](
 
     "update" - {
 
-      s"updates the $nameOfThing" in new CleanDB {
+      s"updates the $nameOfThing" in new BaseContext {
         val createAndUpdate = for {
           original <- make(1) map (_.head)
           changed <- dao.update(factory.alter(original))
@@ -131,7 +115,7 @@ abstract class CrudDaoBaseSpec[T](
       modify: T => T): Unit =
     method - {
 
-      s"finds all ${nameOfThing}s with the same $field" in new CleanDB {
+      s"finds all ${nameOfThing}s with the same $field" in new BaseContext {
         val others = make(2)
         val toFind = Seq.fill(3)(modify(factory.newInstance))
         val created = Future.traverse(toFind)(dao.create)
@@ -160,9 +144,7 @@ abstract class CrudDaoBaseSpec[T](
 
       s"when $nameOfThing links to many other ${nameOfOtherThing}s" - {
 
-        s"gets the list of ${nameOfOtherThing}s" in new CleanDB {
-          removeAll(joinTableDao)
-
+        s"gets the list of ${nameOfOtherThing}s" in new BaseContext {
           val joinId = 100
 
           val query = for {
@@ -193,7 +175,7 @@ abstract class CrudDaoBaseSpec[T](
 
       s"$nameOfThing exists" - {
 
-        s"finds the ${nameOfThing} by the specified $field" in new CleanDB {
+        s"finds the ${nameOfThing} by the specified $field" in new BaseContext {
           val others = make(2)
           val created = dao.create(modify(factory.newInstance, value))
           val all = for {
@@ -211,7 +193,7 @@ abstract class CrudDaoBaseSpec[T](
 
       s"$nameOfThing doesn't exist" - {
 
-        s"does not find the $nameOfThing" in new CleanDB {
+        s"does not find the $nameOfThing" in new BaseContext {
           val others = make(2)
           val all = for {
             _ <- others
@@ -234,7 +216,7 @@ abstract class CrudDaoBaseSpec[T](
       (modify: (T, Int) => T): Unit =
     method - {
 
-      s"finds all ${nameOfThing}s belonging to a/an $relation" in new CleanDB {
+      s"finds all ${nameOfThing}s belonging to a/an $relation" in new BaseContext {
         val others = make(2)
         val id = factory.nextId
         val toFind = Seq.fill(3)(modify(factory.newInstance, id))
@@ -253,5 +235,44 @@ abstract class CrudDaoBaseSpec[T](
     }
 
   // scalastyle:on magic.number
+
+}
+
+abstract class PgCrudDaoBaseSpec[T](
+    nameOfThing: String)
+    (implicit factory: Factory[T])
+  extends CrudDaoBaseSpec(nameOfThing)
+  with PgFunctionalSpec {
+
+  def make(i: Int): Future[Seq[WithId[T]]] = Future.traverse(factory.newInstanceSeq(i))(dao.create)
+
+}
+
+abstract class MySQLCrudDaoBaseSpec[T](
+    nameOfThing: String)
+    (implicit factory: Factory[T])
+  extends CrudDaoBaseSpec(nameOfThing)
+  with MySQLFunctionalSpec {
+
+  def make(i: Int): Future[Seq[WithId[T]]] = Future.traverse(factory.newInstanceSeq(i))(dao.create)
+
+}
+
+abstract class H2CrudDaoBaseSpec[T](
+    nameOfThing: String)
+    (implicit factory: Factory[T])
+  extends CrudDaoBaseSpec(nameOfThing)
+  with H2FunctionalSpec {
+
+  // H2 is not thread safe, so this ensures that creation of multiple models happens sequentially
+  // otherwise you can get id collisions
+  def make(i: Int): Future[Seq[WithId[T]]] = {
+    val instances = factory.newInstanceSeq(i)
+    instances.foldLeft(Future.successful(Seq.empty[WithId[T]])) { case (acc, model) =>
+      acc flatMap { list =>
+        dao.create(model) map (list :+ _)
+      }
+    }
+  }
 
 }

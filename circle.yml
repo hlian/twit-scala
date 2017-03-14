@@ -6,11 +6,16 @@ machine:
     PATH: $HOME/.cache/bin/:$HOME/.cache/venv/bin:$PATH
     COMMIT: "$(cut -c1-6 <<< $CIRCLE_SHA1)"
     CASSANDRA_STARTUP_TIMEOUT: 120
+    DATABASE_URL: postgres://test:test@127.0.0.1:5432/circle_test
 
   java:
     version: oraclejdk8
 
 dependencies:
+  override:
+    - cd frontend && yarn
+    - cd backend && sbt test:scalastyle
+    - cd backend && sbt test:compile
   cache_directories:
     - "~/.cache"
     - "~/.sbt"
@@ -23,8 +28,8 @@ dependencies:
 
 test:
   pre:
-    - (cd frontend; yarn)
-    - (cd backend; sbt test:compile)
+    - psql -c "CREATE USER test WITH PASSWORD 'test'";
+    - psql -c "GRANT ALL PRIVILEGES ON DATABASE circle_test TO test;";
   override:
     - (cd frontend; yarn test)
     - (cd backend; sbt test)
