@@ -31,6 +31,8 @@ Detailed documentation on a number of topics can be found in the `docs/` subdire
   * `brew install sbt`
 * Install [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
   * `brew install chromedriver`
+* Install [yarn](https://yarnpkg.com/en/)
+  * `brew install yarn`
 * Install backend dependencies
   * `cd backend; sbt compile`
 * Install frontend dependencies
