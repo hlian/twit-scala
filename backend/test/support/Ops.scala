@@ -9,7 +9,7 @@ import play.api.libs.ws.WSResponse
  */
 object Ops {
 
-  implicit class JsonBodyMatcher(val left: WSResponse) extends AnyVal {
+  implicit class JsonBodyMatcher(private val left: WSResponse) extends AnyVal {
     def shouldHaveJsonBody[A : Writes](right: A): Unit = {
       val body = (Json.parse(left.body) \ "data")(0)
       val correctJson = Json.toJson(right)
