@@ -4,6 +4,7 @@ import com.originate.models.WithId
 
 import anorm.SqlParser._
 import anorm._
+import play.api.db.Database
 
 import java.sql.Connection
 import scala.concurrent.{ExecutionContext, Future}
@@ -11,16 +12,24 @@ import scala.concurrent.{ExecutionContext, Future}
 /**
  * BaseDao is a base trait for creating DAOs for models.
  */
-abstract class BaseDao[Model](implicit ec: ExecutionContext, connection: Connection) {
+abstract class BaseDao[Model](implicit ec: ExecutionContext) {
   type Row = WithId[Model]
 
   type DataMapper = Seq[(Symbol, Model => ParameterValue)]
 
-  def execute[T](query: => T): Future[T] = Future(query)
+  def db: Database
 
-  def executeIn[T](ids: Seq[Long])(query: => Seq[T]): Future[Seq[T]] =
+  def execute[T](query: Connection => T): Future[T] = Future(db.withConnection(query))
+
+  def executeIn[T](ids: Seq[Long])(query: Connection => Seq[T]): Future[Seq[T]] =
     if (ids.isEmpty) Future.successful(Seq.empty)
     else execute(query)
+
+  def executeTransaction[T](query: Connection => T): Future[T] = Future(db.withTransaction(query))
+
+  def executeTransactionIn[T](ids: Seq[Long])(query: Connection => Seq[T]): Future[Seq[T]] =
+    if (ids.isEmpty) Future.successful(Seq.empty)
+    else executeTransaction(query)
 
   protected def enumColumn[T <: Enumeration](enum: T): Column[enum.Value] =
     Column.nonNull { (value: Any, meta) =>

@@ -10,7 +10,6 @@ import play.api.BuiltInComponents
 import play.api.db.{BoneCPComponents, DBComponents}
 import pureconfig._
 
-import java.sql.Connection
 import scala.concurrent.ExecutionContext
 
 trait Registry
@@ -19,7 +18,6 @@ trait Registry
   with BoneCPComponents {
 
   lazy val database = dbApi.database("default")
-  implicit lazy val connection: Connection = database.getConnection
 
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
 

@@ -6,13 +6,13 @@ import anorm.JodaParameterMetaData._
 import anorm.SqlParser._
 import anorm._
 import org.joda.time.DateTime
+import play.api.db.Database
 
-import java.sql.Connection
 import scala.concurrent.ExecutionContext
 
 class ExampleDao(
-    implicit ec: ExecutionContext,
-    connection: Connection)
+    val db: Database)(
+    implicit ec: ExecutionContext)
   extends CrudDao[Example](Tables.Examples) {
 
   // parser is what anorm will use to take data from the db and convert it into scala values

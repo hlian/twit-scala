@@ -32,7 +32,10 @@ trait PersistenceFunctionalSpec
 
   def shutdown(): Unit = ()
 
-  def ignoreForeignKeys(): Unit = SQL("SET REFERENTIAL_INTEGRITY FALSE").execute()
+  def ignoreForeignKeys(): Unit =
+    database.withConnection { implicit connection =>
+      SQL("SET REFERENTIAL_INTEGRITY FALSE").execute()
+    }
 
   override def beforeEach(): Unit =
     try setupTest()

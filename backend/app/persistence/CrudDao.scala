@@ -6,7 +6,6 @@ import com.originate.models.WithId
 import anorm.SqlParser._
 import anorm._
 
-import java.sql.Connection
 import scala.concurrent.{ExecutionContext, Future}
 
 /**
@@ -14,8 +13,7 @@ import scala.concurrent.{ExecutionContext, Future}
  */
 abstract class CrudDao[Model](
     val tableName: String)
-    (implicit ec: ExecutionContext,
-    connection: Connection)
+    (implicit ec: ExecutionContext)
   extends BaseDao[Model] {
 
   protected val IdFieldSymbol = 'id
@@ -63,12 +61,12 @@ abstract class CrudDao[Model](
       case (symbol, f) => NamedParameter(symbol.name, f(model))
     }
 
-  def getAll(): Future[Seq[Row]] = execute {
+  def getAll(): Future[Seq[Row]] = execute { implicit connection =>
     SQL(s"SELECT $fullFieldString FROM $tableName ORDER BY $IdFieldString DESC")
       .as(rowParser.*)
   }
 
-  def count(): Future[Long] = execute {
+  def count(): Future[Long] = execute { implicit connection =>
     SQL(s"SELECT COUNT(1) as count FROM $tableName")
       .as(scalar[Long].single)
   }
@@ -78,7 +76,7 @@ abstract class CrudDao[Model](
       _ getOrElse (throw new ModelNotFound(tableName, id))
     }
 
-  def findById(id: Int): Future[Option[Row]] = execute {
+  def findById(id: Int): Future[Option[Row]] = execute { implicit connection =>
     SQL(
       s"""
       SELECT $fullFieldString
@@ -91,7 +89,7 @@ abstract class CrudDao[Model](
     .headOption
   }
 
-  def findByRelation(field: Symbol, id: Int): Future[Seq[Row]] = execute {
+  def findByRelation(field: Symbol, id: Int): Future[Seq[Row]] = execute { implicit connection =>
     SQL(
       s"""
       SELECT $fullFieldString
@@ -103,7 +101,10 @@ abstract class CrudDao[Model](
     .as(rowParser.*)
   }
 
-  def findOneByField[T](field: Symbol, value: T)(implicit f: T => ParameterValue): Future[Option[Row]] = execute {
+  def findOneByField[T](
+      field: Symbol,
+      value: T)
+      (implicit f: T => ParameterValue): Future[Option[Row]] = execute { implicit connection =>
     SQL(
       s"""
       SELECT *
@@ -116,7 +117,7 @@ abstract class CrudDao[Model](
     .headOption
   }
 
-  def getAllIfCondition(condition: Boolean, field: Symbol): Future[Seq[Row]] = execute {
+  def getAllIfCondition(condition: Boolean, field: Symbol): Future[Seq[Row]] = execute { implicit connection =>
     SQL(
       s"""
       SELECT $fullFieldString
@@ -130,13 +131,13 @@ abstract class CrudDao[Model](
 
   def remove(row: Row): Future[Unit] = remove(row.id)
 
-  def remove(model: Int): Future[Unit] = execute {
+  def remove(model: Int): Future[Unit] = execute { implicit connection =>
     SQL(s"DELETE FROM $tableName WHERE $IdFieldString = {$IdFieldString}")
       .on(idField(model))
       .executeUpdate()
   } map (_ => ())
 
-  def create(model: Model): Future[Row] = execute {
+  def create(model: Model): Future[Row] = execute { implicit connection =>
     val returnedIds = SQL(
       s"""
         INSERT INTO $tableName ($dataFieldString)
@@ -148,7 +149,7 @@ abstract class CrudDao[Model](
     returnedIds map (l => WithId(l.toInt, model)) getOrElse (throw new ModelCannotBePersisted(tableName, model))
   }
 
-  def update(row: Row): Future[Row] = execute {
+  def update(row: Row): Future[Row] = execute { implicit connection =>
     SQL(
       s"""
       UPDATE $tableName

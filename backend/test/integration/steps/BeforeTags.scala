@@ -20,16 +20,18 @@ object BeforeTags
   private val EvolutionsTable = "play_evolutions"
 
   Before() { _ =>
-    val tables = SQL("""
-      SELECT table_name
-      FROM information_schema.tables
-      WHERE table_schema = 'PUBLIC'
-      """)
-      .executeQuery()
-      .as(scalar[String].*)
+    database.withConnection { implicit connection =>
+      val tables = SQL(
+        """
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'PUBLIC'
+        """
+      ).as(scalar[String].*)
 
-    tables filterNot (_.equalsIgnoreCase(EvolutionsTable)) foreach { tableName =>
-      SQL(s"TRUNCATE TABLE $tableName").execute()
+      tables filterNot (_.equalsIgnoreCase(EvolutionsTable)) foreach { tableName =>
+        SQL(s"TRUNCATE TABLE $tableName").execute()
+      }
     }
   }
 

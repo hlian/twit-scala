@@ -38,8 +38,10 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
   val server = TestServer(port, app)
   server.start()
 
-  SQL("SET MODE PostgreSQL").execute()(registry.connection)
-  Evolutions.applyEvolutions(registry.database, new EvolutionTransformingReader())
+  registry.database.withConnection { implicit connection =>
+    SQL("SET MODE PostgreSQL").execute()
+    Evolutions.applyEvolutions(registry.database, new EvolutionTransformingReader())
+  }
 
   def afterAll(): Unit = {
     registry.database.shutdown()
