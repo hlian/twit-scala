@@ -8,6 +8,7 @@ import play.api.db.Database
 
 import java.sql.Connection
 import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.blocking
 
 /**
  * BaseDao is a base trait for creating DAOs for models.
@@ -19,13 +20,15 @@ abstract class BaseDao[Model](implicit ec: ExecutionContext) {
 
   def db: Database
 
-  def execute[T](query: Connection => T): Future[T] = Future(db.withConnection(query))
+  def execute[T](query: Connection => T): Future[T] =
+    Future(blocking(db.withConnection(query)))
 
   def executeIn[T](ids: Seq[Long])(query: Connection => Seq[T]): Future[Seq[T]] =
     if (ids.isEmpty) Future.successful(Seq.empty)
     else execute(query)
 
-  def executeTransaction[T](query: Connection => T): Future[T] = Future(db.withTransaction(query))
+  def executeTransaction[T](query: Connection => T): Future[T] =
+    Future(blocking(db.withTransaction(query)))
 
   def executeTransactionIn[T](ids: Seq[Long])(query: Connection => Seq[T]): Future[Seq[T]] =
     if (ids.isEmpty) Future.successful(Seq.empty)
