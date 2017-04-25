@@ -28,7 +28,8 @@ module.exports = {
   entry: ['babel-polyfill', './index.jsx'],
   output: {
     path: paths.out,
-    filename: '[hash].js'
+    filename: '[hash].js',
+    publicPath: '/'
   },
   devServer: {
     inline: true,
