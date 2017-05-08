@@ -426,9 +426,9 @@ def beforeAll(): Unit = {
 
 CucumberPlugin.beforeAll := beforeAll
 
-watchSources <++= baseDirectory map { path =>
+watchSources ++= (baseDirectory map { path =>
   (path / "test/features").**("*.feature").get
-}
+}).value
 
 // Specify the frontend build as resources for the Assets controller
 // When doing reverse routing files for the frontend build are accessed as if they are in the "public" directory

@@ -3,6 +3,7 @@ package com.originate.support
 import com.originate.{AppComponents, MacwireApplicationLoader}
 
 import anorm.SQL
+import org.scalatest.BeforeAndAfterAll
 import play.api.{ApplicationLoader, BuiltInComponentsFromContext, Environment, Mode}
 import play.api.ApplicationLoader.Context
 import play.api.db.Databases
@@ -13,15 +14,15 @@ class TestApplicationLoader extends MacwireApplicationLoader with ApplicationLoa
   override def loadRegistry(context: Context) =
     new BuiltInComponentsFromContext(context) with AppComponents {
       override lazy val database = Databases.inMemory()
+      database.withConnection { implicit connection =>
+        SQL("SET MODE PostgreSQL").execute()
+        Evolutions.applyEvolutions(database, new EvolutionTransformingReader())
+      }
     }
 }
 
 abstract trait IntegrationSpecLike extends BaseSpecLike {
-
   System.setProperty("config.resource", "integration.conf")
-
-  private val StatsDPort = 18125
-  private val statsdServer = new MockStatsDServer(StatsDPort)
 
   private val env = new Environment(
     new java.io.File("."),
@@ -37,17 +38,14 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
   val port = 19001
   val server = TestServer(port, app)
   server.start()
+}
 
-  registry.database.withConnection { implicit connection =>
-    SQL("SET MODE PostgreSQL").execute()
-    Evolutions.applyEvolutions(registry.database, new EvolutionTransformingReader())
-  }
+abstract class IntegrationSpec extends BaseSpec with IntegrationSpecLike with BeforeAndAfterAll {
+  private val StatsDPort = 18125
+  private val statsdServer = new MockStatsDServer(StatsDPort)
 
-  def afterAll(): Unit = {
+  override def afterAll(): Unit = {
     registry.database.shutdown()
     statsdServer.close()
   }
-
 }
-
-abstract class IntegrationSpec extends BaseSpec with IntegrationSpecLike
