@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000
 const paths = {
   src: path.resolve(__dirname, 'src'),
   template: path.resolve(__dirname, 'src', 'index.pug'),
-  out: path.resolve(__dirname, 'dist'),
+  out: path.resolve(__dirname, '..', 'backend', 'public', 'client'),
   globalStyles: path.resolve(__dirname, 'src', 'global_styles', 'index.styl'),
   eslint: path.resolve(__dirname, '.eslintrc.json'),
   i18n: path.resolve(__dirname, 'src', 'utils', 'i18n')
@@ -15,10 +15,12 @@ const paths = {
 
 let devTool = 'cheap-module-source-map'
 let cssLoaderQuery = ['modules']
+let publicPath = '/client/'
 
 if (NODE_ENV !== 'production') {
   devTool = 'cheap-module-eval-source-map'
   cssLoaderQuery.push('localIdentName=[folder]---[local]---[hash:base64]')
+  publicPath = '/'
 }
 
 
@@ -28,13 +30,16 @@ module.exports = {
   entry: ['babel-polyfill', './index.jsx'],
   output: {
     path: paths.out,
-    filename: '[hash].js',
-    publicPath: '/'
+    publicPath: publicPath,
+    filename: '[hash].js'
   },
   devServer: {
     inline: true,
     port: PORT,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {
+      '/api' : 'http://localhost:9000'
+    }
   },
   resolve: {
     extensions: ['.js', '.jsx'],

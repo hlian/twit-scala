@@ -361,7 +361,6 @@ scalacOptions += "-P:linter:enable-only:" +
   "UnsafeAbs+" +
   "UnthrownException+" +
   "UnusedForLoopIteratorValue+" +
-  "UnusedParameter+" +
   "UseAbsNotSqrtSquare+" +
   "UseCbrt+" +
   "UseConditionDirectly+" +

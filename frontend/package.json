@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "webpack-dev-server --hot",
-    "build": "webpack",
+    "build": "NODE_ENV=production webpack",
     "lint": "yarn lint-js && yarn lint-spec",
     "lint-js": "eslint --ext .jsx --ext .js -c .eslintrc.json --ignore-pattern \"*.spec.*\" src",
     "lint-spec": "eslint --ext .spec.jsx --ext .spec.js -c .eslintrc_spec.json src",

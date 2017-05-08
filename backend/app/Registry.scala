@@ -5,6 +5,7 @@ import com.originate.controllers._
 import com.originate.global.exceptions.ConfigurationLoadFailed
 import com.originate.monitoring.StatsDRegistry
 
+import _root_.controllers.Assets
 import com.softwaremill.macwire._
 import play.api.BuiltInComponents
 import play.api.db.{BoneCPComponents, DBComponents}
@@ -17,6 +18,8 @@ trait Registry
   with BuiltInComponents
   with BoneCPComponents {
 
+  def assets: Assets
+
   lazy val database = dbApi.database("default")
 
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
@@ -27,6 +30,7 @@ trait Registry
     case Right(conf) => conf
   }
 
+  lazy val assetsController = wire[AssetsController]
   lazy val pingController = wire[PingController]
   lazy val swaggerController = wire[SwaggerController]
 

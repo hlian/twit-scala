@@ -3,6 +3,7 @@ target/
 .history
 coverage
 build
+public/
 
 # Frontend
 dist

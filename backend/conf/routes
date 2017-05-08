@@ -23,3 +23,16 @@ GET   /api/docs/swagger.json                                                    
 
 ### NoDocs ###
 GET   /api/docs/swagger-ui/*file                                                controllers.Assets.at(path: String = "/public/lib/swagger-ui", file: String)
+
+####################################################### Swagger #######################################################
+
+###
+# summary: main client page
+# ##
+GET   /                                                                         controllers.Assets.at(path="/public/client", file="index.html")
+
+### NoDocs ###
+GET   /client/*file                                                             controllers.Assets.at(path="/public/client", file)
+
+### NoDocs ###
+GET   /*file                                                                    com.originate.controllers.AssetsController.at(file)

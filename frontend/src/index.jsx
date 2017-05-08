@@ -7,6 +7,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import AppComponent from 'app/pages/app';
 import DetailsComponent from 'app/pages/details';
 import { TodoContainer } from 'app/pages/demo';
+import NotFoundComponent from 'app/pages/notFound';
 import initStore from 'app/store';
 
 import 'app/assets/css/reset.css';
@@ -21,6 +22,7 @@ const Main = () =>
       <Route path="/" component={AppComponent}>
         <IndexRoute component={DetailsComponent} />
         <Route path="demo" component={TodoContainer} />
+        <Route path="*" component={NotFoundComponent} />
       </Route>
     </Router>
   </Provider>;
