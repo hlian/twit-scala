@@ -1,4 +1,4 @@
-import actions from './actions';
+import { actions } from './partitions';
 
 const initState = (dispatch) => {
   const todos = [

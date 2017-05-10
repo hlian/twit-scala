@@ -1,7 +1,8 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
-const NODE_ENV = process.env.NODE_ENV
+const NODE_ENV = process.env.NODE_ENV || 'dev'
 const PORT = process.env.PORT || 3000
 
 const paths = {
@@ -23,6 +24,9 @@ if (NODE_ENV !== 'production') {
   publicPath = '/'
 }
 
+const env = {
+  'NODE_ENV': JSON.stringify(NODE_ENV),
+}
 
 module.exports = {
   devtool: devTool,
@@ -55,12 +59,13 @@ module.exports = {
       { test: /\.jsx?$/, use: ['babel-loader'], exclude: /node_modules/ },
       { test: /\.pug$/, use: ['pug-loader'] },
       { test: /\.svg$/, use: ['babel-loader', 'react-svg-loader'] },
-      { test: /\.(jpg|png)$/, use: ['file-loader'] },
+      { test: /\.(jpg|png|ico)$/, use: ['file-loader'] },
       { test: require.resolve('snapsvg'), use: ['imports-loader?this=>window,fix=>module.exports=0'] },
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: paths.template })
+    new HtmlWebpackPlugin({ template: paths.template }),
+    new webpack.DefinePlugin({ 'webpack.env': env }),
   ],
   externals: {
     'cheerio': 'window',

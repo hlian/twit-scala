@@ -13,7 +13,8 @@
   },
   "globals": {
     "document": true,
-    "window": true
+    "window": true,
+    "webpack": true
   },
   "rules": {
     "comma-dangle": ["error", "always-multiline"],
@@ -30,5 +31,4 @@
   "settings": {
     "import/resolver": "webpack"
   }
-
 }

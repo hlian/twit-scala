@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import _ from 'lodash';
 
-import actions from 'app/store/actions';
+import { actions } from 'app/store/partitions';
 import Tabs from 'app/components/tabs';
 import List from 'app/components/list';
 
@@ -83,7 +83,7 @@ TodoComponent.propTypes = {
 
 const mapState = (state) => {
   return {
-    todos: state.todos,
+    todos: state.todos.todos,
   };
 };
 
