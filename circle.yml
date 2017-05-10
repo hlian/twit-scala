@@ -37,6 +37,8 @@ test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . \( \! -readable -prune \) -o \( -type f -regex ".*/target/test-reports/.*xml" \) -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+    - mkdir -p "$CIRCLE_ARTIFACTS/frontend"
+    - mv "frontend/coverage" "$CIRCLE_ARTIFACTS/frontend/"
 
 deployment:
   production:
