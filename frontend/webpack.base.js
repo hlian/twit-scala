@@ -3,47 +3,23 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 
 const NODE_ENV = process.env.NODE_ENV || 'dev'
-const PORT = process.env.PORT || 3000
-
 const paths = {
   src: path.resolve(__dirname, 'src'),
-  template: path.resolve(__dirname, 'src', 'index.pug'),
+  htmlTemplate: path.resolve(__dirname, 'src', 'index.pug'),
   out: path.resolve(__dirname, '..', 'backend', 'public', 'client'),
-  globalStyles: path.resolve(__dirname, 'src', 'global_styles', 'index.styl'),
-  eslint: path.resolve(__dirname, '.eslintrc.json'),
   i18n: path.resolve(__dirname, 'src', 'utils', 'i18n')
-}
-
-let devTool = 'cheap-module-source-map'
-let cssLoaderQuery = ['modules']
-let publicPath = '/client/'
-
-if (NODE_ENV !== 'production') {
-  devTool = 'cheap-module-eval-source-map'
-  cssLoaderQuery.push('localIdentName=[folder]---[local]---[hash:base64]')
-  publicPath = '/'
 }
 
 const env = {
   'NODE_ENV': JSON.stringify(NODE_ENV),
 }
 
-module.exports = {
-  devtool: devTool,
+const baseConfig = {
   context: paths.src,
   entry: ['babel-polyfill', './index.jsx'],
   output: {
     path: paths.out,
-    publicPath: publicPath,
     filename: '[hash].js'
-  },
-  devServer: {
-    inline: true,
-    port: PORT,
-    historyApiFallback: true,
-    proxy: {
-      '/api' : 'http://localhost:9000'
-    }
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -64,8 +40,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: paths.template }),
-    new webpack.DefinePlugin({ 'webpack.env': env }),
+    new webpack.DefinePlugin({ 'process.env': env }),
+    new HtmlWebpackPlugin({ template: paths.htmlTemplate }),
   ],
   externals: {
     'cheerio': 'window',
@@ -74,3 +50,5 @@ module.exports = {
     'react/lib/ReactContext': 'react',
   }
 }
+
+module.exports = { baseConfig, paths }

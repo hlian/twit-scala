@@ -29,6 +29,10 @@
     "arrow-body-style": ["error", "as-needed", { "requireReturnForObjectLiteral": true }]
   },
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.dev.js"
+      }
+    }
   }
 }

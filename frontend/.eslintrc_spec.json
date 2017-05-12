@@ -32,6 +32,10 @@
     "padded-blocks": "off"
   },
   "settings": {
-    "import/resolver": "webpack"
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.dev.js"
+      }
+    }
   }
 }

@@ -1,5 +1,5 @@
 const config = {
-  env: webpack.env.NODE_ENV,
+  env: process.env.NODE_ENV,
 };
 
 export const isDevelop = config.env === 'dev';
