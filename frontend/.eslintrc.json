@@ -14,7 +14,7 @@
   "globals": {
     "document": true,
     "window": true,
-    "webpack": true
+    "logger": true
   },
   "rules": {
     "comma-dangle": ["error", "always-multiline"],

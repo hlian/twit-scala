@@ -28,8 +28,11 @@ class ApiService {
   }
 
   requestJson(method, endpoint, { body = {}, query = {} }) {
-    const formattedEndpoint = url.format({ pathname: this.baseUrl + endpoint, query });
-    return fetch(formattedEndpoint, {
+    const pathname = this.baseUrl + endpoint;
+    logger.group(`making ${method} request to ${pathname}`);
+    logger.info('query: ', query);
+    logger.info('body: ', body);
+    return fetch(url.format({ pathname, query }), {
       method,
       credentials: 'same-origin',
       headers: {
@@ -37,7 +40,9 @@ class ApiService {
         Authorization: `basic ${this.apiAuthentication}`,
       },
       body: (method === 'GET' || method === 'DELETE') ? null : JSON.stringify(body),
-    }).then(this.handleResponse);
+    }).then(this.handleResponse).catch((err) => {
+      logger.error(`Request to ${endpoint} failed: ${err}`);
+    }).then(() => logger.groupEnd());
   }
 
   handleResponse(response) { // eslint-disable-line class-methods-use-this

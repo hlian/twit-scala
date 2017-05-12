@@ -7,7 +7,8 @@ const paths = {
   src: path.resolve(__dirname, 'src'),
   htmlTemplate: path.resolve(__dirname, 'src', 'index.pug'),
   out: path.resolve(__dirname, '..', 'backend', 'public', 'client'),
-  i18n: path.resolve(__dirname, 'src', 'utils', 'i18n')
+  i18n: path.resolve(__dirname, 'src', 'utils', 'i18n'),
+  logger: path.resolve(__dirname, 'src', 'utils', 'logger'),
 }
 
 const env = {
@@ -26,6 +27,7 @@ const baseConfig = {
     modules: ['node_modules'],
     alias: {
       i18n: paths.i18n,
+      logger: paths.logger,
       app: paths.src
     }
   },
@@ -40,8 +42,9 @@ const baseConfig = {
     ]
   },
   plugins: [
-    new webpack.DefinePlugin({ 'process.env': env }),
     new HtmlWebpackPlugin({ template: paths.htmlTemplate }),
+    new webpack.ProvidePlugin({ 'logger': 'logger' }),
+    new webpack.DefinePlugin({ 'process.env': env }),
   ],
   externals: {
     'cheerio': 'window',
