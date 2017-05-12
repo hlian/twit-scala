@@ -88,6 +88,7 @@ libraryDependencies ++= Seq(
   evolutions,
   filters,
   jdbc,
+  json,
   ws
 )
 
@@ -100,17 +101,12 @@ libraryDependencies ++= Seq(
   "com.softwaremill.macwire"         %% "util"                             % "2.2.5",
   "org.eclipse.jgit"                  % "org.eclipse.jgit"                 % "4.5.0.201609210915-r",
   "org.scala-lang"                    % "scala-reflect"                    % scalaVersion.value,
-  "com.typesafe.play"                %% "play-json"                        % "2.5.10",
-  "com.typesafe.play"                %% "play-ws"                          % "2.5.10",
   "com.github.melrief"               %% "pureconfig"                       % "0.6.0",
   "joda-time"                         % "joda-time"                        % "2.9.6",
   "io.backchat.inflector"            %% "scala-inflector"                  % "1.3.5",
   "com.indeed"                        % "java-dogstatsd-client"            % "2.0.16",
-  "com.softwaremill.macwire"         %% "macros"                           % "2.2.5"                         % Provided,
   "com.typesafe.play"                %% "anorm"                            % "2.5.2",
   "org.postgresql"                    % "postgresql"                       % "9.4-1200-jdbc41"                 exclude("org.slf4j", "slf4j-simple"),
-  "ch.qos.logback"                    % "logback-classic"                  % "1.1.7",
-  "com.typesafe.scala-logging"       %% "scala-logging"                    % "3.5.0",
   "com.iheart"                       %% "play-swagger"                     % "0.5.4",
   "org.webjars"                       % "swagger-ui"                       % "2.2.10"
 )
