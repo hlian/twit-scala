@@ -2,9 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import Snap from 'snapsvg';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
+import colors from 'app/styles/colors';
 import { absolutePosition } from 'app/styles/mixins';
-import { sansFont } from 'app/styles/fonts';
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,17 +24,17 @@ const TextWrapper = styled.div`
 `;
 
 const TextLabel = styled.span`
-  ${sansFont(200)}
+  font-weight: 200;
   display: block;
   font-size: 12px;
   font-weight: 500;
   text-decoration: underline;
-  color: ${colors.grey9};
+  color: ${colors.background};
   margin-top: -10px;
 `;
 
 const TextValue = styled.span`
-  ${sansFont(400)}
+  font-weight: 400;
   display: block;
   font-size: 24px;
 `;

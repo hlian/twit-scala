@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 import t from 'i18n';
-import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
+import colors from 'app/styles/colors';
 
 const Header = styled.div`
-  ${sansFont(800)}
+  font-weight: 800;
   font-size: 32px;
   color: ${colors.secondary};
 `;

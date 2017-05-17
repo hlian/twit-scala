@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
+import colors from 'app/styles/colors';
 import { clearFix } from 'app/styles/mixins';
 
 import TextInput from 'app/components/textInput';
@@ -23,7 +23,7 @@ const SubmitTodo = styled(Button)`
   border-radius: 0 0 5px 5px;
 
   &:disabled {
-    background: ${colors.greyD};
+    background: ${colors.disabled};
   }
 `;
 

@@ -1,11 +1,10 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
+import colors from 'app/styles/colors';
 
 const Tab = styled.div`
-  ${sansFont(400)}
+  font-weight: 400;
   display: inline-block;
   width: 100px;
   padding: .2rem .2rem .1rem;

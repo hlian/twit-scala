@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import t from 'i18n';
-import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
+import colors from 'app/styles/colors';
 import NavigationLink from 'app/components/navigationLink';
 import GlobeIcon from 'app/assets/icons/globe.svg';
 
@@ -13,7 +12,7 @@ const DetailsContainer = styled.div`
 `;
 
 const Header = styled.h1`
-  ${sansFont(800)}
+  font-weight: 800;
   font-size: 32px;
   color: ${colors.primary};
 `;

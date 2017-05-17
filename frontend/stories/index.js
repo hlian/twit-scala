@@ -65,9 +65,9 @@ storiesOf('Button', module)
 storiesOf('Text Input', module)
   .add('Normal', () => (
     <div>
-      <TextInput onChange={() => action('cool')} />
-      <TextInput onChange={() => action()} value="with default value" />
-      <TextInput onChange={() => action()} placeholder="with default placeholder" />
+      <TextInput />
+      <TextInput defaultValue="with default value" />
+      <TextInput placeholder="with default placeholder" />
     </div>
   ))
 

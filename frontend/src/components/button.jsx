@@ -1,8 +1,7 @@
 import { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
+import colors from 'app/styles/colors';
 
 const buttonStyles = ({ inverted }) => {
   let fg = colors.white;
@@ -19,7 +18,7 @@ const buttonStyles = ({ inverted }) => {
 };
 
 const Button = styled.button`
-  ${sansFont(200)}
+  font-weight: 200;
   cursor: pointer;
   fontSize: 1rem;
   outline: none;

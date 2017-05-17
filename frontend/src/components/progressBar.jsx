@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import Snap from 'snapsvg';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
+import colors from 'app/styles/colors';
 
 const SVG = styled.svg`
   display: inline-block;
@@ -40,7 +40,7 @@ class ProgressBar extends Component {
 
     backgroundBar.attr({
       stroke: 'none',
-      fill: colors.greyB,
+      fill: colors.background,
     });
 
     const progressBar = s.rect(0, 0, 0, height);

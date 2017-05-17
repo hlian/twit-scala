@@ -1,8 +1,7 @@
 import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
-import { colors } from 'app/styles/variables';
-import { sansFont } from 'app/styles/fonts';
+import colors from 'app/styles/colors';
 
 const ListWrapper = styled.div`
   box-sizing: border-box;
@@ -10,7 +9,7 @@ const ListWrapper = styled.div`
 `;
 
 const BaseEntry = styled.div`
-  ${sansFont(300)}
+  font-weight: 300;
   font-size: 18px;
   padding: 10px 5px;
 
