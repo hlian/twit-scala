@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
-import { IndexRoute, Router, Route, browserHistory } from 'react-router';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import initStore from 'app/store';
 
@@ -13,15 +13,18 @@ import NotFoundComponent from 'app/pages/notFound';
 import 'app/assets/css/reset.css';
 import 'app/assets/css/index.css';
 
-const Main = () =>
+const Main = () => (
   <Provider store={initStore()}>
-    <Router history={browserHistory}>
-      <Route path="/" component={AppComponent}>
-        <IndexRoute component={DetailsComponent} />
-        <Route path="demo" component={TodoContainer} />
-        <Route path="*" component={NotFoundComponent} />
-      </Route>
-    </Router>
-  </Provider>;
+    <AppComponent>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={DetailsComponent} />
+          <Route exact path="/demo" component={TodoContainer} />
+          <Route path="*" component={NotFoundComponent} />
+        </Switch>
+      </BrowserRouter>
+    </AppComponent>
+  </Provider>
+);
 
 render(Main(), document.getElementById('app'));

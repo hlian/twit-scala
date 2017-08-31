@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import Snap from 'snapsvg';
 import styled from 'styled-components';
 
@@ -144,7 +145,7 @@ class DonutChart extends Component {
 
     return (
       <Wrapper size={size} small={small}>
-        <SVG innerRef={c => (this.svg = c)} width={size} height={size} />
+        <SVG innerRef={(c) => { this.svg = c; }} width={size} height={size} />
         {this.renderText()}
       </Wrapper>
     );

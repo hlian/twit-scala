@@ -42,7 +42,7 @@ const reducer = ({ todos } = {}) =>
         }
         return todo;
       });
-      return { ...state, updatedTodos };
+      return { ...state, todos: updatedTodos };
     }),
     startCreateTodo: ((state) => {
       return { ...state, creatingTodo: true };

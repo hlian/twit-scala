@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import { PropTypes } from 'prop-types';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import _ from 'lodash';
@@ -64,7 +65,7 @@ class TodoComponent extends Component {
     return (
       <DemoContainer>
         <Tabs tabs={this.filters()} tabClick={filter => this.setState({ filter })} />
-        <ListContainer entries={this.filterTodos()} toggle={todo => toggleTodo(todo.id)} />
+        <ListContainer entries={this.filterTodos()} toggle={todo => toggleTodo(todo)} />
         <CreateTodo create={createTodo} />
       </DemoContainer>
     );

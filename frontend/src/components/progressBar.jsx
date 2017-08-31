@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { PropTypes } from 'prop-types';
 import Snap from 'snapsvg';
 import styled from 'styled-components';
 
@@ -59,7 +60,7 @@ class ProgressBar extends Component {
   render() {
     const { width, height } = this.state;
     return (
-      <SVG innerRef={c => (this.svg = c)} width={width} height={height} />
+      <SVG innerRef={(c) => { this.svg = c; }} width={width} height={height} />
     );
   }
 }
