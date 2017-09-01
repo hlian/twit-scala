@@ -4,7 +4,7 @@ import com.originate.MockRegistry
 import com.originate.util.Tap._
 
 import org.scalatest.{FreeSpec, Matchers}
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
 
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global

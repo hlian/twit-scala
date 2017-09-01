@@ -2,9 +2,14 @@ import com.typesafe.sbt.packager.docker._
 
 name := "originate-play"
 
+organization := "com.originate"
+
 version := "0.1"
 
-scalaVersion in ThisBuild := "2.11.8"
+scalaVersion in ThisBuild := "2.12.2"
+
+resolvers += Resolver.sonatypeRepo("snapshots")
+resolvers += Resolver.jcenterRepo
 
 /*
  * scalac configuration
@@ -15,25 +20,18 @@ val commonScalacOptions = Seq(
   "-target:jvm-1.8", // Target platform for object files
   "-Xexperimental", // Enable experimental extensions
   "-Xfuture", // Turn on future language features
-  "-Ybackend:GenBCode" // Choice of bytecode emitter
+  "-Xlint:-unused,_", // Play compiles conf/routes into a file that triggers this warning a ton
+  "-Ywarn-unused:-imports,-patvars,-locals,-privates,_" // See above
 )
 
 val compileScalacOptions = Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs
   "-feature", // Emit warning and location for usages of features that should be imported explicitly
   "-g:vars", // Set level of generated debugging info: none, source, line, vars, notailcalls
-  "-optimise", // Generates faster bytecode by applying optimisations to the program
   "-unchecked", // Enable additional warnings where generated code depends on assumptions
   "-Xfatal-warnings", // Fail the compilation if there are any warnings
   "-Xlint:_", // Enable or disable specific warnings
-  "-Yclosure-elim", // Perform closure elimination
-  "-Yconst-opt", // Perform optimization with constant values
-  "-Ydead-code", // Perform dead code elimination
-  "-Yinline", // Perform inlining when possible
-  "-Yinline-handlers", // Perform exception handler inlining when possible
-  "-Yinline-warnings", // Emit inlining warnings
   "-Yno-adapted-args", // Do not adapt an argument list to match the receiver
-  "-Yopt:_", // Enable optimizations
   "-Ywarn-dead-code", // Warn when dead code is identified
   "-Ywarn-numeric-widen" // Warn when numerics are widened (Not really useful)
 )
@@ -88,7 +86,6 @@ libraryDependencies ++= Seq(
   evolutions,
   filters,
   jdbc,
-  json,
   ws
 )
 
@@ -101,23 +98,24 @@ libraryDependencies ++= Seq(
   "com.softwaremill.macwire"         %% "util"                             % "2.2.5",
   "org.eclipse.jgit"                  % "org.eclipse.jgit"                 % "4.5.0.201609210915-r",
   "org.scala-lang"                    % "scala-reflect"                    % scalaVersion.value,
-  "com.github.melrief"               %% "pureconfig"                       % "0.6.0",
-  "joda-time"                         % "joda-time"                        % "2.9.6",
-  "io.backchat.inflector"            %% "scala-inflector"                  % "1.3.5",
+  "com.github.pureconfig"            %% "pureconfig"                       % "0.7.2",
+  "joda-time"                         % "joda-time"                        % "2.9.9",
   "com.indeed"                        % "java-dogstatsd-client"            % "2.0.16",
-  "com.typesafe.play"                %% "anorm"                            % "2.5.2",
-  "org.postgresql"                    % "postgresql"                       % "9.4-1200-jdbc41"                 exclude("org.slf4j", "slf4j-simple"),
-  "com.iheart"                       %% "play-swagger"                     % "0.5.4",
+  "com.typesafe.play"                %% "anorm"                            % "2.6.0-M1",
+  "com.typesafe.play"                %% "play-json"                        % "2.6.3",
+  "com.typesafe.play"                %% "play-json-joda"                   % "2.6.3",
+  "org.postgresql"                    % "postgresql"                       % "42.1.4"                 exclude("org.slf4j", "slf4j-simple"),
+  "com.iheart"                       %% "play-swagger"                     % "0.6.1-PLAY2.6",
   "org.webjars"                       % "swagger-ui"                       % "2.2.10"
 )
 
 libraryDependencies ++= Seq(
   "org.mockito"                       % "mockito-core"                     % "2.2.29",
-  "org.scalatestplus.play"           %% "scalatestplus-play"               % "1.5.1",
-  "info.cukes"                        % "cucumber-core"                    % "1.2.4",
-  "info.cukes"                        % "cucumber-junit"                   % "1.2.4",
-  "info.cukes"                        % "cucumber-jvm"                     % "1.2.4",
-  "info.cukes"                       %% "cucumber-scala"                   % "1.2.4"
+  "org.scalatestplus.play"           %% "scalatestplus-play"               % "3.1.1",
+  "io.cucumber"                       % "cucumber-core"                    % "2.0.0-SNAPSHOT",
+  "io.cucumber"                      %% "cucumber-scala"                   % "2.0.0-SNAPSHOT",
+  "io.cucumber"                       % "cucumber-jvm"                     % "2.0.0-SNAPSHOT",
+  "com.h2database"                    % "h2"                               % "1.4.196"
 ) map (_ % Test)
 
 /*
@@ -265,24 +263,34 @@ wartremoverWarnings ++= Seq(
 
 // Bonus Warts
 wartremoverWarnings ++= Seq(
-  PlayWart.DateFormatPartial,
-  PlayWart.EnumerationPartial,
-  PlayWart.FutureObject,
-  PlayWart.GenMapLikePartial,
-  PlayWart.GenTraversableLikeOps,
-  PlayWart.GenTraversableOnceOps,
-  PlayWart.LegacyDateTimeCode,
-  PlayWart.StringOpsPartial,
-  PlayWart.TraversableOnceOps,
-  PlayWart.UntypedEquality
+  PlayWart.AssetsObject,
+  PlayWart.CookiesPartial,
+  PlayWart.FlashPartial,
+  PlayWart.FormPartial,
+  PlayWart.HeadersPartial,
+  PlayWart.JavaApi,
+  PlayWart.JsLookupResultPartial,
+  PlayWart.JsReadablePartial,
+  PlayWart.LangObject,
+  PlayWart.MessagesObject,
+  PlayWart.SessionPartial,
+  PlayWart.TypedMapPartial,
+  PlayWart.WSResponsePartial,
+  ExtraWart.EnumerationPartial,
+  ExtraWart.FutureObject,
+  ExtraWart.GenMapLikePartial,
+  ExtraWart.GenTraversableLikeOps,
+  ExtraWart.GenTraversableOnceOps,
+  ExtraWart.ScalaGlobalExecutionContext,
+  ExtraWart.StringOpsPartial,
+  ExtraWart.TraversableOnceOps
 )
 
 // Exclude Play auto-generated sources
 
-wartremoverExcluded ++= Seq(
-  "Routes",
-  "RoutesPrefix"
-) map (f => playManagedSources.value / "router" / (f + ".scala"))
+wartremoverExcluded += playManagedSources.value / "router" / "Routes.scala"
+wartremoverExcluded += playManagedSources.value / "router" / "RoutesPrefix.scala"
+wartremoverExcluded += playManagedSources.value / "com" / "originate" / "controllers" / "ReverseRoutes.scala"
 
 /*
  * Linter: http://github.com/HairyFotr/linter
@@ -436,7 +444,7 @@ enablePlugins(DockerSpotifyClientPlugin)
 
 packageName in Docker := packageName.value
 version in Docker := version.value
-maintainer in Docker := "Antonio Morales <antonio.morales@originate.com"
+maintainer in Docker := "Antonio Morales <antonio.morales@originate.com>"
 daemonUser in Docker := "daemon"
 
 dockerBaseImage := "relateiq/oracle-java8"

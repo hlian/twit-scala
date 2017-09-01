@@ -1,6 +1,6 @@
 package com.originate.monitoring
 
-import mojolly.inflector.InflectorImports._
+import com.originate.util.Ops._
 
 /**
  * Datadog keys have some subtleties that are explained in their docs. If a metric isn't showing up,

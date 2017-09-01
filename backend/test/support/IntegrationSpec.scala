@@ -1,27 +1,35 @@
 package com.originate.support
 
-import com.originate.{AppComponents, MacwireApplicationLoader}
+import com.originate.{Components, ComponentsLoader}
 
 import anorm.SQL
 import org.scalatest.BeforeAndAfterAll
-import play.api.{ApplicationLoader, BuiltInComponentsFromContext, Environment, Mode}
+import play.api.{ApplicationLoader, Environment, Mode}
 import play.api.ApplicationLoader.Context
 import play.api.db.Databases
 import play.api.db.evolutions.Evolutions
 import play.api.test.TestServer
 
-class TestApplicationLoader extends MacwireApplicationLoader with ApplicationLoader {
-  override def loadRegistry(context: Context) =
-    new BuiltInComponentsFromContext(context) with AppComponents {
-      override lazy val database = Databases.inMemory()
-      database.withConnection { implicit connection =>
-        SQL("SET MODE PostgreSQL").execute()
-        Evolutions.applyEvolutions(database, new EvolutionTransformingReader())
-      }
+class TestApplicationLoader extends ComponentsLoader {
+
+  val inMemoryDatabase = {
+    val db = Databases.inMemory()
+    db.withConnection { implicit connection =>
+      SQL("SET MODE PostgreSQL").execute()
+      Evolutions.applyEvolutions(db, new EvolutionTransformingReader())
     }
+    db
+  }
+
+  override def loadComponents(context: Context): Components =
+    new Components(context) {
+      val database = inMemoryDatabase
+    }
+
 }
 
 abstract trait IntegrationSpecLike extends BaseSpecLike {
+
   System.setProperty("config.resource", "integration.conf")
 
   private val env = new Environment(
@@ -31,21 +39,24 @@ abstract trait IntegrationSpecLike extends BaseSpecLike {
   )
   private val context = ApplicationLoader.createContext(env)
   private val loader = new TestApplicationLoader
-  val registry = loader.loadRegistry(context)
+  val components = loader.loadComponents(context)
 
-  implicit lazy val app = registry.application
+  implicit lazy val app = components.application
 
   val port = 19001
   val server = TestServer(port, app)
   server.start()
+
 }
 
 abstract class IntegrationSpec extends BaseSpec with IntegrationSpecLike with BeforeAndAfterAll {
+
   private val StatsDPort = 18125
   private val statsdServer = new MockStatsDServer(StatsDPort)
 
   override def afterAll(): Unit = {
-    registry.database.shutdown()
+    components.database.shutdown()
     statsdServer.close()
   }
+
 }

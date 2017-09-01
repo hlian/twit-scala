@@ -11,7 +11,7 @@ object Ops {
 
   implicit class JsonBodyMatcher(private val left: WSResponse) extends AnyVal {
     def shouldHaveJsonBody[A : Writes](right: A): Unit = {
-      val body = (Json.parse(left.body) \ "data")(0)
+      val body = (Json.parse(left.body) \ "data").head
       val correctJson = Json.toJson(right)
       body match {
         case JsDefined(js) => js shouldBe correctJson

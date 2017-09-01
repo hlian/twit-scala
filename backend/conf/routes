@@ -7,9 +7,6 @@
 ###
 GET   /ping                                                                     com.originate.controllers.PingController.ping
 
-### NoDocs ###
-GET   /assets/*file                                                             controllers.Assets.versioned(path = "/public", file: Asset)
-
 ####################################################### Swagger #######################################################
 
 ###
@@ -22,17 +19,17 @@ GET   /api/docs                                                                 
 GET   /api/docs/swagger.json                                                    com.originate.controllers.SwaggerController.specs
 
 ### NoDocs ###
-GET   /api/docs/swagger-ui/*file                                                controllers.Assets.at(path: String = "/public/lib/swagger-ui", file: String)
+GET   /api/docs/swagger-ui/*file                                                com.originate.controllers.AssetsController.swagger(file)
 
 ####################################################### Swagger #######################################################
 
 ###
 # summary: main client page
 # ##
-GET   /                                                                         controllers.Assets.at(path="/public/client", file="index.html")
+GET   /                                                                         com.originate.controllers.AssetsController.client(file = "index.html")
 
 ### NoDocs ###
-GET   /client/*file                                                             controllers.Assets.at(path="/public/client", file)
+GET   /client/*file                                                             com.originate.controllers.AssetsController.client(file)
 
 ### NoDocs ###
-GET   /*file                                                                    com.originate.controllers.AssetsController.at(file)
+GET   /*file                                                                    com.originate.controllers.AssetsController.catchAll(file)

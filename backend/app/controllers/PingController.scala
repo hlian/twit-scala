@@ -1,10 +1,8 @@
 package com.originate.controllers
 
-import play.api.mvc.{Action, AnyContent, Controller}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
-import scala.concurrent.ExecutionContext
-
-class PingController()(implicit ec: ExecutionContext) extends Controller {
+class PingController(cc: ControllerComponents) extends AbstractController(cc) {
 
   def ping(): Action[AnyContent] = Action {
     Ok("pong")

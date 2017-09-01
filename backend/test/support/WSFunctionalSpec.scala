@@ -45,6 +45,6 @@ trait WSFunctionalSpec extends BaseSpec with BeforeAndAfterAll {
     buildClient(path, queryParams).get
 
   private def buildClient(path: String, queryParams: Seq[(String, String)]) =
-    wsClient.url(path).withQueryString(queryParams: _*)
+    wsClient.url(path).addQueryStringParameters(queryParams: _*)
 
 }

@@ -1,7 +1,8 @@
 package com.originate.global
 
-import pureconfig.ConfigConvert
-import pureconfig.ConfigConvert.{catchReadError, fromStringReader}
+import pureconfig.ConfigConvert.viaString
+import pureconfig.ConfigReader
+import pureconfig.ConvertHelpers.catchReadError
 
 case class Environment(value: String) extends AnyVal {
   override def toString: String = value
@@ -14,7 +15,7 @@ case class Environment(value: String) extends AnyVal {
 
 object Environment {
 
-  implicit val readEnvironment: ConfigConvert[Environment] =
-    fromStringReader(catchReadError(x => Environment(x)))
+  implicit val readEnvironment: ConfigReader[Environment] =
+    viaString(catchReadError(Environment.apply), (_.toString))
 
 }

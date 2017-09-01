@@ -5,7 +5,7 @@ import com.originate.util.Logging
 
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.libs.json.Reads
-import play.api.mvc.{BodyParser, Controller, RequestHeader, Result}
+import play.api.mvc.{AbstractController, BodyParser, RequestHeader, Result}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.{Left, Right}
@@ -15,7 +15,7 @@ import scala.util.{Left, Right}
  * Commonly used constructs can be placed within it and easily shared with all
  * controllers from there (especially implicit helpers).
  */
-trait BaseApiController extends Controller with Logging with ApiResponseHelpers with I18nSupport {
+trait BaseApiController extends AbstractController with Logging with ApiResponseHelpers with I18nSupport {
 
   /**
    * Used to restrict a json endpoint to read a specific type from the request.

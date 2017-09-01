@@ -2,8 +2,7 @@ package com.originate.dto
 
 import com.originate.util.Ops.AnyOps
 
-import play.api.data.validation.ValidationError
-import play.api.libs.json.{JsError, JsPath, Json, Writes}
+import play.api.libs.json.{JsError, JsPath, Json, JsonValidationError, Writes}
 import play.api.mvc.{Request, RequestHeader, Result, Results}
 
 /**
@@ -35,7 +34,7 @@ trait ApiResponseHelpers extends Results {
       pagingData
     ).toResult
 
-  def apiError(errors: Seq[(JsPath, Seq[ValidationError])]): Result =
+  def apiError(errors: Seq[(JsPath, Seq[JsonValidationError])]): Result =
     ApiResponse(BadRequest, Seq(JsError.toJson(errors))).toResult
 
   def apiError(jsError: JsError): Result =

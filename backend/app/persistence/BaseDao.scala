@@ -7,8 +7,7 @@ import anorm._
 import play.api.db.Database
 
 import java.sql.Connection
-import scala.concurrent.{ExecutionContext, Future}
-import scala.concurrent.blocking
+import scala.concurrent.{ExecutionContext, Future, blocking}
 
 /**
  * BaseDao is a base trait for creating DAOs for models.

@@ -4,11 +4,11 @@ import com.originate.util.JsonTransformer
 
 import com.iheart.playSwagger.SwaggerSpecGenerator
 import play.api.libs.json.{JsObject, JsValue}
-import play.api.mvc.{Action, AnyContent, Controller}
+import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class SwaggerController(implicit ec: ExecutionContext) extends Controller {
+class SwaggerController(cc: ControllerComponents)(implicit ec: ExecutionContext) extends AbstractController(cc) {
 
   implicit val cl: ClassLoader = getClass.getClassLoader
 

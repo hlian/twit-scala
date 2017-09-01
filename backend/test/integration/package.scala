@@ -14,8 +14,8 @@ package object steps {
 
   val appContainer = new CucumberApplicationLoader
   val app = appContainer.app
-  val registry = appContainer.registry
-  val database = registry.database
+  val components = appContainer.components
+  val database = components.database
 
   implicit val webDriver: WebDriver = new ChromeDriver
   implicit val ec: ExecutionContext = ExecutionContext.Implicits.global

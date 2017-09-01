@@ -9,9 +9,8 @@ import _root_.controllers.Assets
 import com.softwaremill.macwire._
 import play.api.BuiltInComponents
 import play.api.db.{BoneCPComponents, DBComponents}
+import play.api.mvc.ControllerComponents
 import pureconfig._
-
-import scala.concurrent.ExecutionContext
 
 trait Registry
   extends DBComponents
@@ -19,10 +18,7 @@ trait Registry
   with BoneCPComponents {
 
   def assets: Assets
-
-  lazy val database = dbApi.database("default")
-
-  implicit val ec: ExecutionContext = ExecutionContext.Implicits.global
+  def controllerComponents: ControllerComponents
 
   implicit def hint[T]: ProductHint[T] = ProductHint[T](ConfigFieldMapping(CamelCase, CamelCase))
   val config: Config = loadConfig[Config] match {
