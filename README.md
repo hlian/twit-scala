@@ -24,22 +24,18 @@ Detailed documentation on a number of topics can be found in the `docs/` subdire
 
 ### Dependencies
 
+The commands below are for macOS; you will have to tailor them to your own OS.
+
 * `brew update`
-* Install [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-  * `brew cask install java`
-* Install [sbt](http://www.scala-sbt.org/download.html)
-  * `brew install sbt`
-* Install [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/)
-  * `brew install chromedriver`
-* Install [yarn](https://yarnpkg.com/en/)
-  * `brew install yarn`
+* Install [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) and [docker](https://www.docker.com/products/docker#/mac)
+  * `brew cask install java docker`
+* Install [sbt](http://www.scala-sbt.org/download.html), [Chromedriver](https://sites.google.com/a/chromium.org/chromedriver/), [yarn](https://yarnpkg.com/en/), [docker-compose](https://docs.docker.com/compose/install/)
+  * `brew install sbt chromedriver yarn docker-compose`
+  * On OS X, docker-compose should come with Docker and you should be able to drop it off the command
 * Install backend dependencies
   * `cd backend; sbt compile`
 * Install frontend dependencies
   * `cd frontend; yarn install`
-* Install [docker](https://www.docker.com/products/docker#/mac)
-* Install [docker-compose](https://docs.docker.com/compose/install/)
-  * Note: on OSX the installation of docker comes with docker-compose
 * Install [fix-imports](https://github.com/Bowbaq/scala-imports)
   * Go to [releases page](https://github.com/Bowbaq/scala-imports/releases) and download the binary for your platform and add it somewhere on your `$PATH`
 
