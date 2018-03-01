@@ -104,7 +104,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play"                %% "anorm"                            % "2.6.0-M1",
   "com.typesafe.play"                %% "play-json"                        % "2.6.3",
   "com.typesafe.play"                %% "play-json-joda"                   % "2.6.3",
-  "org.postgresql"                    % "postgresql"                       % "42.1.4"                 exclude("org.slf4j", "slf4j-simple"),
+  "org.xerial"                        % "sqlite-jdbc"                      % "3.21.0",
   "com.iheart"                       %% "play-swagger"                     % "0.6.1-PLAY2.6",
   "org.webjars"                       % "swagger-ui"                       % "2.2.10"
 )

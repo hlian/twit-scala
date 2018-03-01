@@ -53,7 +53,6 @@ abstract class Components(context: Context)
     _.configure(context.environment, context.initialConfiguration, Map.empty)
   }
 
-  override lazy val httpErrorHandler = new ApiErrorHandler
   override lazy val httpFilters = Seq(
     wire[LoggingFilter],
     wire[DatadogFilter]

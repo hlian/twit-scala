@@ -84,34 +84,3 @@ trait DBFunctionalSpec extends PersistenceFunctionalSpec {
 
   def cleanupTest(): Unit = Evolutions.cleanupEvolutions(database)
 }
-
-/**
- * PgFunctionalSpec provides an implicit connection to the test database set up via docker-compose
- */
-trait PgFunctionalSpec extends DBFunctionalSpec {
-  val userInfo = s"${dbConfig.dbUsername}:${dbConfig.dbPassword}"
-  val hostAndDatabase = s"${dbConfig.host}:${dbConfig.port}${dbConfig.database}"
-  val database = Databases(
-    driver = "org.postgresql.Driver",
-    url = s"postgres://$userInfo@$hostAndDatabase"
-  )
-
-  implicit val realConnection = database.getConnection()
-}
-
-/**
- * MySQLFunctionalSpec is included in this repo as an example, but not configured out of
- * the box. You will need to add the dependency to build.sbt
- */
-trait MySQLFunctionalSpec extends DBFunctionalSpec {
-  val database = Databases(
-    driver = "com.mysql.jdbc.Driver",
-    url = s"jdbc:mysql://localhost${dbConfig.database}",
-    config = Map(
-      "user" -> dbConfig.dbUsername,
-      "password" -> dbConfig.dbPassword
-    )
-  )
-
-  implicit val realConnection = database.getConnection()
-}
